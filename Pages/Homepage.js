@@ -1,18 +1,20 @@
-
+import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import {Text, View,ScrollView,Dimensions,StyleSheet,Image} from 'react-native';
-import  {Title,Button,FAB,Avatar,Card,IconButton,Modal,Portal,Provider} from 'react-native-paper';
+import {BottomSheet,ListItem} from 'react-native-elements';
+import  {Title,Button,FAB,Avatar,Card,IconButton,Checkbox} from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import  Modal  from 'react-native-modal';
+import React from 'react';
 import Header from './Header';
 import { useState,useEffect } from 'react';
 import './Server';
 export default function Homepage(){ 
 
-    const [buttoncolor,setButtoncolor]=useState('#000000'); // used for changing the button colour
-
-    const [classes,setClasses]=useState([]); //used for unwrapping and storing json data from API
-
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);//whether or not calendar is shown
-
+    const [isVisible, setIsVisible] = useState(false);
+    const [buttoncolor,setButtoncolor] = useState('#000000'); // used for changing the button colour
+    const [classes,setClasses] = useState([]); //used for unwrapping and storing json data from API
+    const [calendarvisible,setCalendarvisible] = useState(false);//whether or not calendar is shown
+    const [seattype,setSeattype] = useState("");
     const showDatePicker = () => {
         setDatePickerVisibility(true);
     };
@@ -26,52 +28,42 @@ export default function Homepage(){
         hideDatePicker();
     };
     
-    /*
-    const seatavailabilitychecker = () => 
-    {
-      if(visible){
-        return (
-            <>
-            <Provider>
-                <Portal>
-                <Modal
-                        visible={true}
-                        onDismiss={hideModal}
-                        style={{ justifyContent: 'flex-end', margin: 0 }}>
-                        <View style={{ backgroundColor: '#000000', height: Dimensions.get('screen').height / 1 }}>
-                        <Text>bottom half</Text>
-                        </View>
-                </Modal>
-                </Portal>
-            </Provider>
-            </>
-        );
-      }
-    }
-    */
-   //useEffect fetches data from API and stores it into classes which was initially initalised as an empty list
+    
 
     useEffect(()=> {
+
         fetch('/api/classes')
         .then(res => res.json())
         .then(json => setClasses(json.classes))
         .catch(err => console.log(err))
         console.log(classes);
-    },[])
 
-    const Seatavailabilitychecker = () => {
-        fetch('/api/classes')
+    },[])
+    const AllSessions = () => {
+
+        fetch('api/classes')
         .then(res => res.json())
-        .then(json => setClasses(json.classes.filter(obj=>obj.Type=='Registered')))
+        .then(json => setClasses(json.classes))
         .catch(err => console.log(err))
+
     }
     const Durationfilter = () => {
+
         fetch('/api/classes')
         .then(res => res.json())
         .then(json => setClasses(json.classes.filter(obj=>obj.Duration=='30 min')))
         .catch(err => console.log(err))
+
     }
 
+    const Savebuttonpressed = () => {
+        fetch('/api/classes')
+        .then(res => res.json())
+        .then(json => setClasses(json.classes.filter(obj=>obj.Seats==seattype)))
+        .catch(err => console.log(err))
+        console.warn(seattype,classes);
+        setIsVisible(false);
+    }
     /*
     Here,the screen is divided into two portions via the flex property.
     So that the content is automatically aligned for different screen sizes.
@@ -82,7 +74,6 @@ export default function Homepage(){
     return (
         <>
         <Header/>
-        
         <View style={{flex:1,flexDirection:'column'}}> 
             <Title style={{marginTop:20,marginLeft:10}}>Sessions</Title>
             <Text style={{marginLeft:10,marginTop:10}}>Discover on-demand learning,discussions</Text>
@@ -93,22 +84,45 @@ export default function Homepage(){
         <View style={{flex:4}}>
 
             <View style={{flexDirection:'row'}}>
-                <Button color={buttoncolor}>All Sessions</Button>
+
+                <Button color={buttoncolor} onPress={AllSessions}>All Sessions</Button>
+
                 <Button color={buttoncolor}>My Sessions</Button>
+
             </View>
             
             <View style={{flexDirection:'row',marginTop:15}}>
 
-                <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={showDatePicker}>Date</Button>
-
-                <DateTimePickerModal
-                    isVisible={isDatePickerVisible}
-                    mode="date"
-                    onConfirm={handleConfirm}
-                    onCancel={hideDatePicker}
-                />
-                <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={Seatavailabilitychecker}>Seats</Button>
-
+                <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={() => setCalendarvisible(true)}>Date</Button>
+                    <BottomSheet modalProps={{}} isVisible={calendarvisible}>
+                    <Calendar
+                        current={'2021-03-01'}
+                        minDate={'2010-01-01'}
+                        maxDate={'2021-05-01'}
+                        onDayPress={day => {
+                            console.log('selected day', day);
+                        }}
+                        monthFormat={'yyyy MM'}
+                        onMonthChange={month => {
+                            console.log('month changed', month);
+                        }}
+                        hideArrows={false}
+                        hideExtraDays={false}
+                        disableMonthChange={false}
+                        firstDay={1}
+                        />
+                        <Button onPress={()=>setCalendarvisible(false)} mode="contained" style={{borderRadius:10,padding:3,marginLeft:10,marginRight:10}} color="#000000">Close</Button>
+                    </BottomSheet>
+                <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={() => setIsVisible(true)}>Seats</Button>
+                    <BottomSheet modalProps={{}} isVisible={isVisible}>
+                    <View style={{backgroundColor:'#FFFFFF'}}>
+                    <Checkbox.Item label="Filling Fast" status='unchecked' onPress={()=>setSeattype("Filling Fast")} />
+                    <Checkbox.Item label="Available" status='unchecked'  onPress={()=>setSeattype("Available")}/>
+                    <Checkbox.Item label="Booked" status='unchecked'  onPress={()=>setSeattype("Booked")} />
+                    <Button onPress={Savebuttonpressed} mode="contained" style={{borderRadius:10,padding:3,marginLeft:10,marginRight:10}} color="#000000">Save</Button>
+                    <Button></Button>
+                    </View>
+                    </BottomSheet>
                 <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={Durationfilter}> Instructor</Button>
 
             </View>
