@@ -8,13 +8,16 @@ import React from 'react';
 import Header from './Header';
 import { useState,useEffect } from 'react';
 import './Server';
-export default function Homepage(){ 
 
+export default function Homepage(){ 
+    var list=[];
     const [isVisible, setIsVisible] = useState(false);
     const [buttoncolor,setButtoncolor] = useState('#000000'); // used for changing the button colour
     const [classes,setClasses] = useState([]); //used for unwrapping and storing json data from API
     const [calendarvisible,setCalendarvisible] = useState(false);//whether or not calendar is shown
     const [seattype,setSeattype] = useState("");
+    const [selecteddate,setSelecteddate]=useState("");
+
     const showDatePicker = () => {
         setDatePickerVisibility(true);
     };
@@ -23,22 +26,24 @@ export default function Homepage(){
         setDatePickerVisibility(false);
     };
 
-    const handleConfirm = (date) => {
-        console.warn("A date has been picked: ", date);
-        hideDatePicker();
-    };
-    
-    
-
     useEffect(()=> {
-
         fetch('/api/classes')
         .then(res => res.json())
         .then(json => setClasses(json.classes))
         .catch(err => console.log(err))
-        console.log(classes);
-
+        
     },[])
+
+    let markedDay = {};
+        classes.map((item) => {
+            markedDay[item.Date] = {
+            selected: true,
+            marked: true,
+            selectedColor: "purple",
+            };
+        });
+    
+    
     const AllSessions = () => {
 
         fetch('api/classes')
@@ -47,6 +52,14 @@ export default function Homepage(){
         .catch(err => console.log(err))
 
     }
+
+    const MySessions = () => {
+        fetch('api/classes')
+        .then(res => res.json())
+        .then(json => setClasses(json.classes.filter(obj=>obj.Type=='Registered')))
+        .catch(err => console.log(err))
+    }
+
     const Durationfilter = () => {
 
         fetch('/api/classes')
@@ -57,13 +70,35 @@ export default function Homepage(){
     }
 
     const Savebuttonpressed = () => {
+        
+        if(seattype!="")
+        {
+            fetch('/api/classes')
+            .then(res => res.json())
+            .then(json => setClasses(json.classes.filter(obj=>obj.Seats==seattype)))
+            .catch(err => console.log(err))
+            setIsVisible(false);
+        }
+        else
+        {
+            fetch('/api/classes')
+            .then(res => res.json())
+            .then(json => setClasses(json.classes))
+            .catch(err => console.log(err))
+            setIsVisible(false);
+        }
+    }
+
+    const Selecteddaysevent = (date) => {
+
         fetch('/api/classes')
         .then(res => res.json())
-        .then(json => setClasses(json.classes.filter(obj=>obj.Seats==seattype)))
+        .then(json => setClasses(json.classes.filter(obj=>obj.Date==date)))
         .catch(err => console.log(err))
-        console.warn(seattype,classes);
-        setIsVisible(false);
+        setCalendarvisible(false);
+
     }
+
     /*
     Here,the screen is divided into two portions via the flex property.
     So that the content is automatically aligned for different screen sizes.
@@ -87,25 +122,23 @@ export default function Homepage(){
 
                 <Button color={buttoncolor} onPress={AllSessions}>All Sessions</Button>
 
-                <Button color={buttoncolor}>My Sessions</Button>
+                <Button color={buttoncolor} onPress={MySessions}>My Sessions</Button>
 
             </View>
             
             <View style={{flexDirection:'row',marginTop:15}}>
 
                 <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={() => setCalendarvisible(true)}>Date</Button>
-                    <BottomSheet modalProps={{}} isVisible={calendarvisible}>
+                    <BottomSheet  isVisible={calendarvisible}>
                     <Calendar
+                        markedDates={ markedDay }
                         current={'2021-03-01'}
                         minDate={'2010-01-01'}
-                        maxDate={'2021-05-01'}
+                        maxDate={'2021-12-12'}
                         onDayPress={day => {
-                            console.log('selected day', day);
+                            Selecteddaysevent(day.dateString);
                         }}
-                        monthFormat={'yyyy MM'}
-                        onMonthChange={month => {
-                            console.log('month changed', month);
-                        }}
+                        monthFormat={'MM yyyy'}
                         hideArrows={false}
                         hideExtraDays={false}
                         disableMonthChange={false}
@@ -113,15 +146,16 @@ export default function Homepage(){
                         />
                         <Button onPress={()=>setCalendarvisible(false)} mode="contained" style={{borderRadius:10,padding:3,marginLeft:10,marginRight:10}} color="#000000">Close</Button>
                     </BottomSheet>
-                <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={() => setIsVisible(true)}>Seats</Button>
-                    <BottomSheet modalProps={{}} isVisible={isVisible}>
-                    <View style={{backgroundColor:'#FFFFFF'}}>
-                    <Checkbox.Item label="Filling Fast" status='unchecked' onPress={()=>setSeattype("Filling Fast")} />
-                    <Checkbox.Item label="Available" status='unchecked'  onPress={()=>setSeattype("Available")}/>
-                    <Checkbox.Item label="Booked" status='unchecked'  onPress={()=>setSeattype("Booked")} />
-                    <Button onPress={Savebuttonpressed} mode="contained" style={{borderRadius:10,padding:3,marginLeft:10,marginRight:10}} color="#000000">Save</Button>
-                    <Button></Button>
-                    </View>
+                    
+                    <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={() => setIsVisible(true)}>Seats</Button>
+                        <BottomSheet modalProps={{}} isVisible={isVisible}>
+                        <View style={{backgroundColor:'#FFFFFF'}}>
+                        <Checkbox.Item label="Filling Fast" status='unchecked' onPress={()=>setSeattype("Filling Fast")} />
+                        <Checkbox.Item label="Available" status='unchecked'  onPress={()=>setSeattype("Available")}/>
+                        <Checkbox.Item label="Booked" status='unchecked'  onPress={()=>setSeattype("Booked")} />
+                        <Button onPress={Savebuttonpressed} mode="contained" style={{borderRadius:10,padding:3,marginLeft:10,marginRight:10}} color="#000000">Save</Button>
+                        <Button></Button>
+                        </View>
                     </BottomSheet>
                 <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={Durationfilter}> Instructor</Button>
 
@@ -129,24 +163,24 @@ export default function Homepage(){
             
             <ScrollView style={{marginTop:10}}>
             {
-
-            classes.map((classes,idx) => (
-                <>
-                <Card.Title
-                    title={classes.classname}
-                    subtitle={classes.Duration + "  " + classes.Time + " " + classes.Seats}
-                    titleStyle={{fontSize:18}}
-                    titleNumberOfLines={3}
-                    subtitleNumberOfLines={4}
-                    style={{marginTop:15}}
-                    left={(props) => <Avatar.Image {...props} size={40} source={{uri:classes.Instructorimage}} />}
-                    right={(props) => <IconButton {...props}  onPress={() => {}} />}
-                />
-                <Button color='#000000'>{classes.Type}</Button>
-                <Image source={{uri:classes.Instructorimage}} />
-                </> 
-            ))
-            }
+            classes.map((classes,idx) => {
+                    return(
+                    <View key={idx}>
+                        <Card.Title
+                            title={classes.classname}
+                            subtitle={classes.Duration + "  " + classes.Time + " " + classes.Seats}
+                            titleStyle={{fontSize:18}}
+                            titleNumberOfLines={3}
+                            subtitleNumberOfLines={4}
+                            style={{marginTop:15}}
+                            left={(props) => <Avatar.Image {...props} size={40} source={{uri:classes.Instructorimage}} />}
+                            right={(props) => <IconButton {...props}  onPress={() => {}} />}
+                        />
+                        <Button color='#000000'>{classes.Type}</Button>
+                    </View>
+                    );
+                }
+            )}
             </ScrollView>
         </View>
 
