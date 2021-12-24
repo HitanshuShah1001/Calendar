@@ -7,9 +7,12 @@ createServer({
     this.get("/classes", () => {
       return {
         classes: [
-          { id: 1, classname: "3 Dimensional Connections", Time:"8:30 AM - 12:00 PM IST",Duration:"30 min",Type:"Finished",Seats:'Filling Fast',Date:'2021-07-10',Instructorimage:'../assets/Rectangle 83.png'},
-          { id: 2, classname: "The Next Billion and the Rise of Irrational Design by Payal Arora", Time:"6:00 PM , 9:30 PM IST",Duration:"2 days",Type:"Registered",Date:'2021-07-11',Seats:"Available",Instructorimage:'../assets/favicon.png'},
-          { id: 3, classname: "Designing your life", Time:"1:30 - 2:30 PM IST",Duration:"45 min",Type:"Register",Seats:"Booked",Date:'2021-07-10',Instructorimage:'../assets/favicon.png'},
+          { id: 1, Iname:'Michael Scott',classname: "3 Dimensional Connections", Time:"8:30 AM - 12:00 PM IST",Duration:"30 min",Type:"Finished",Seats:'Filling Fast',Date:'2021-07-10',Instructorimage:'https://previews.123rf.com/images/mimagephotography/mimagephotography1602/mimagephotography160200817/53356005-close-up-portrait-of-an-attractive-young-african-american-man-on-white-background.jpg'},
+          { id: 2, Iname:'Payal Arora',classname: "The Next Billion and the Rise of Irrational Design by Payal Arora", Time:"6:00 PM , 9:30 PM IST",Duration:"2 days",Type:"Registered",Date:'2021-07-11',Seats:"Available",Instructorimage:'https://previews.123rf.com/images/marctran/marctran1903/marctran190300253/122835357-.jpg'},
+          { id: 3, Iname:'Don Norman',classname: "Designing your life", Time:"1:30 - 2:30 PM IST",Duration:"45 min",Type:"Register",Seats:"Booked",Date:'2021-07-10',Instructorimage:'https://previews.123rf.com/images/nejron/nejron1904/nejron190400874/121899496-hindus-na-castingu.jpg'},
+          { id: 4, Iname:'RV Doshi',classname: "Architecture in Everyday life", Time:"8:30 AM - 12:00 PM IST",Duration:"30 min",Type:"Finished",Seats:'Filling Fast',Date:'2021-03-10',Instructorimage:'https://public-media.interaction-design.org/images/members/1022/profile_pic/medium.2b3381892a5f90d82e503da1b8432810.jpg'},
+          { id: 5, Iname:'Kunal Shah',classname: "Talks About CRED", Time:"6:00 PM , 9:30 PM IST",Duration:"2 days",Type:"Registered",Date:'2021-11-11',Seats:"Available",Instructorimage:'https://assets-global.website-files.com/606cae0c4e05dc45295b04a7/60eddf33bd254bfba23f621f_5f30f56e0622c7dece7d7271_25_kunal%252525252520shah%252525252520cred.png'},
+          { id: 6, Iname:'Nitin Kamath',classname: "Founding Zerodha", Time:"1:30 - 2:30 PM IST",Duration:"45 min",Type:"Register",Seats:"Booked",Date:'2021-03-01',Instructorimage:'https://bsmedia.business-standard.com/media-handler.php?mediaPath=https://bsmedia.business-standard.com/_media/bs/img/article/2021-06/01/full/1622532143-8731.jpg&width=1200'},
         ],
       }
     })
