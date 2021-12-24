@@ -1,17 +1,17 @@
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import {Text, View,ScrollView,SafeAreaView,StyleSheet,Image} from 'react-native';
-import {BottomSheet,ListItem} from 'react-native-elements';
-import  {Title,Avatar,Card,IconButton,Checkbox,Appbar,Searchbar,Button,Paragraph,Caption} from 'react-native-paper';
-
+import {BottomSheet,ListItem,Divider} from 'react-native-elements';
+import  {Title,Avatar,Card,Checkbox,Appbar,Searchbar,Button,Caption} from 'react-native-paper';
 import React from 'react';
-
 import { useState,useEffect } from 'react';
+import Cardview from './Cardview';
 import './Server';
 
 export default function Homepage(){ 
+    
     const [count,setCount]=useState(0);
 
-    const [SearchQuery,setSearchQuery] = useState("");
+    const [SearchQuery,setSearchQuery]=useState("");//storing the value that was given into search bar to fetch  appropriate data
 
     const [isVisible, setIsVisible] = useState(false); //used for toggling showing and closing of modal on clicking Seats filter 
 
@@ -36,14 +36,7 @@ export default function Homepage(){
         .catch(err => console.log(err))
     },[])
 
-    const Query = () => {
-        fetch('api/classes')
-        .then(res => res.json())
-        .then(json => setClasses(json.classes.filter(obj=>obj.Iname==SearchQuery)))
-        .catch(err => console.log(err))
-        setCount(0);
-        setSearchQuery("");
-    }
+    
     /*
     markedday is a dictionary that stores the date of the events by extracting it from classes object 
     and the values are the filters that are applied such as the color to be shown in the calendar and this markedday
@@ -54,8 +47,8 @@ export default function Homepage(){
         classes.map((item) => {
             markedDay[item.Date] = {
             selected: true,
-            marked: true,
-            selectedColor: "purple",
+            
+            selectedColor: "black",
             };
         });
     
@@ -79,11 +72,14 @@ export default function Homepage(){
         .catch(err => console.log(err))
     }
 
-    /*
-    Close the Seat modal for showing the filters of seats when the Savebutton is clicked 
-    and if no filter(Available,Filling Fast,Booked) was selected,
-    then showing unfiltered data 
-    */
+    const Query = () => {
+        fetch('api/classes')
+        .then(res => res.json())
+        .then(json => setClasses(json.classes.filter(obj=>obj.Iname==SearchQuery)))
+        .catch(err => console.log(err))
+        setCount(0);
+        setSearchQuery("");
+    }
 
     const Savebuttonpressed = () => {
 
@@ -104,6 +100,13 @@ export default function Homepage(){
             setIsVisible(false);
         }
     }
+
+    /*
+    Close the Seat modal for showing the filters of seats when the Savebutton is clicked 
+    and if no filter(Available,Filling Fast,Booked) was selected,
+    then showing unfiltered data 
+    */
+
     
     /* 
     The selecteddaysevent takes a date as a parameter and is invoked 
@@ -121,17 +124,17 @@ export default function Homepage(){
 
     let header = count!==0 ? 
     <SafeAreaView>
-    <View style={{flexDirection:'row'}}> 
-    <Searchbar placeholder="Enter instructor's name" style={{width:'90%',borderRadius:20}} onChangeText={(text) => setSearchQuery(text)}/> 
-    <Button onPress={Query} icon="magnify"/>
-    </View>
+        <View style={{flexDirection:'row'}}> 
+        <Searchbar placeholder="Enter instructor's name" style={{width:'90%',borderRadius:20}} onChangeText={(text) => setSearchQuery(text)}/> 
+        <Button onPress={Query} icon="magnify"/>
+        </View>
     </SafeAreaView>
     :
     <SafeAreaView> 
         <Appbar.Header style={{backgroundColor: '#FFFFFF'}}> 
-        <Appbar.Action  icon="dots-horizontal" style={{backgroundColor:'#FFFFFF'}}/>
+        <Appbar.Action  icon="reorder-horizontal" style={{backgroundColor:'#FFFFFF'}} color='#A9A9A9'/>
         <Appbar.Content title="" subtitle="" />
-            <Appbar.Action  icon="magnify" onPress={() => setCount(1)}/>
+            <Appbar.Action  icon="magnify" onPress={() => setCount(1)} color="#A9A9A9"/>
             <Avatar.Image size={34} source={{uri:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRblGHmIA70kc9T4UJy-AFc0YLcnPpu5kwR2Q&usqp=CAU'}}/>
         </Appbar.Header>
     </SafeAreaView>
@@ -194,32 +197,8 @@ export default function Homepage(){
                 <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' > Instructor</Button>
 
             </View>
+            <Cardview classeslist={classes} />
             
-            <ScrollView style={{marginTop:10}}>
-            {
-            classes.map((classes,idx) => {
-                    return(
-                    <View key={idx}>
-                        <Card.Title
-                            title={classes.classname}
-                            subtitle={classes.Date + "  " + classes.Time }
-                            titleStyle={{fontSize:18}}
-                            titleNumberOfLines={3}
-                            subtitleNumberOfLines={4}
-                            style={{marginTop:18}}
-                            left={(props) => <Avatar.Image {...props} size={50} source={{uri:classes.Instructorimage}} />}
-                            
-                        />
-                        <Card.Content>
-                            <Caption style={{textAlign:'center'}}>{classes.Date + " " + classes.Seats}</Caption>
-                        </Card.Content>
-                        <Button color='#D3D3D3' mode='contained' width='40%' style={{alignSelf:'center',borderRadius:15}}>{classes.Type}</Button>
-
-                    </View>
-                    );
-                }
-            )}
-            </ScrollView>
         </View>
 
         </>
