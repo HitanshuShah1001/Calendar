@@ -6,32 +6,43 @@ import React from 'react';
 import { useState,useEffect } from 'react';
 
 const Cardview = (props) => {
-    return (
-        <ScrollView style={{marginTop:10}}>
-        {
-        props.classeslist.map((classes,idx) => {
-                return(
-                <View key={idx}>
-                    <Card.Title
-                        title={classes.classname +  '\n' + classes.Iname}
-                        subtitle={classes.Date + "  " + classes.Time }
-                        titleStyle={{fontSize:18}}
-                        titleNumberOfLines={3}
-                        subtitleNumberOfLines={4}
-                        style={{marginTop:18}}
-                        left={(props) => <Avatar.Image {...props} size={50} source={{uri:classes.Instructorimage}} />}
-                        
-                    />
-                    <Card.Content>
-                        <Caption style={{textAlign:'center'}}>{classes.Date + " " + classes.Seats}</Caption>
-                    </Card.Content>
-                    <Button color='#D3D3D3' mode='contained' width='40%' style={{alignSelf:'center',borderRadius:15,marginBottom:8}}>{classes.Type}</Button>
-                    <Divider orientation="horizontal" width={1} color='#D3D3D3' style={{marginLeft:10,marginRight:10}}/>
-                </View>
-                );
-            }
-        )}
-        </ScrollView>
-    );
+    var noofevents = Object.keys(props.classeslist).length;
+    if(noofevents!==0){
+        return (
+            <ScrollView style={{marginTop:10}}>
+            {
+        
+            props.classeslist.map((classes,idx) => {
+                    return(
+                    <View key={idx} >
+                        <Card.Title
+                            title={classes.classname +  '\n' + classes.Iname}
+                            subtitle={classes.Time + " ◉ " + classes.Date.split("-").reverse().join("-")
+                                        + '\n' + "👥 " + classes.Attending + " " + classes.Seats}
+                            titleStyle={{fontSize:18}}
+                            titleNumberOfLines={3}
+                            subtitleNumberOfLines={4}
+                            style={{marginTop:18}}
+                            left={(props) => <Avatar.Image {...props} size={50} source={{uri:classes.Instructorimage}} />}
+                            
+                        />
+                        <Button color='#D3D3D3' mode='contained' compact={true} width='30%' style={{borderRadius:15,marginBottom:8,marginTop:8,marginLeft:10,alignSelf:'center'}}>{classes.Type}</Button>
+                        <Divider orientation="horizontal" width={1} color='#D3D3D3' style={{marginLeft:10,marginRight:10}}/>
+                    </View>
+                    );
+                }
+            )}
+            </ScrollView>
+        );
+    }
+    else 
+    {
+        return (
+            <>
+                <Text style={{textAlign:'center',marginTop:30}}>No events found</Text>
+            </>
+        );
+    }
+
 }
 export default Cardview;

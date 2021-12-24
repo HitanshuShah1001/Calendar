@@ -9,9 +9,9 @@ import './Server';
 
 export default function Homepage(){ 
     
-    const [count,setCount]=useState(0);
+    const [count,setCount] = useState(0); //used for showing searchbar and switching back to header view
 
-    const [SearchQuery,setSearchQuery]=useState("");//storing the value that was given into search bar to fetch  appropriate data
+    const [SearchQuery,setSearchQuery] = useState(""); //storing the value that was given into search bar to fetch  appropriate data
 
     const [isVisible, setIsVisible] = useState(false); //used for toggling showing and closing of modal on clicking Seats filter 
 
@@ -20,6 +20,8 @@ export default function Homepage(){
     const [classes,setClasses] = useState([]); //used for unwrapping and storing json data from API
     
     const [calendarvisible,setCalendarvisible] = useState(false); //whether or not calendar is shown
+
+    const [constevents,setConstevents] = useState([]);
 
     /* seattype used for storing the seattype selected("Available,Filling fast,Booked") 
     for displaying appropriate results*/
@@ -34,6 +36,8 @@ export default function Homepage(){
         .then(res => res.json())
         .then(json => setClasses(json.classes))
         .catch(err => console.log(err))
+        setConstevents(classes);
+        console.warn(constevents);
     },[])
 
     
@@ -44,7 +48,7 @@ export default function Homepage(){
     */
 
     let markedDay = {};
-        classes.map((item) => {
+        constevents.map((item) => {
             markedDay[item.Date] = {
             selected: true,
             
@@ -59,6 +63,7 @@ export default function Homepage(){
         .then(res => res.json())
         .then(json => setClasses(json.classes))
         .catch(err => console.log(err))
+
     }
 
     /* Fetch data when the MySessions button is clicked for 
@@ -147,11 +152,12 @@ export default function Homepage(){
     */
     
     return (
+
         <>
         {header}
-        <View style={{flex:1,flexDirection:'column'}}> 
-            <Title style={{marginTop:20,marginLeft:10}}>Sessions</Title>
-            <Text style={{marginLeft:10,marginTop:10}}>Discover on-demand learning,discussions</Text>
+        <View style={styles.textviewstyle}> 
+            <Title style={styles.titlestyle}>Sessions</Title>
+            <Text style={styles.titlestyle}>Discover on-demand learning,discussions</Text>
             <Text style={styles.textStyle}>and interactive sesssions in your </Text>
             <Text style={styles.textStyle}>community. </Text>
         </View>
@@ -167,30 +173,30 @@ export default function Homepage(){
 
                 <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={() => setCalendarvisible(true)}>Date</Button>
                     <BottomSheet  isVisible={calendarvisible}>
-                    <Calendar
-                        markedDates={ markedDay }
-                        current={'2021-03-01'}
-                        minDate={'2010-01-01'}
-                        maxDate={'2021-12-12'}
-                        onDayPress={day => {
-                            Selecteddaysevent(day.dateString);
-                        }}
-                        monthFormat={'MM yyyy'}
-                        hideArrows={false}
-                        hideExtraDays={false}
-                        disableMonthChange={false}
-                        firstDay={1}
-                        />
+                        <Calendar
+                            markedDates={ markedDay }
+                            current={'2021-03-01'}
+                            minDate={'2010-01-01'}
+                            maxDate={'2021-12-12'}
+                            onDayPress={day => {
+                                Selecteddaysevent(day.dateString);
+                            }}
+                            monthFormat={'MM yyyy'}
+                            hideArrows={false}
+                            hideExtraDays={false}
+                            disableMonthChange={false}
+                            firstDay={1}
+                            />
                         <Button onPress={()=>setCalendarvisible(false)} mode="contained" style={{borderRadius:10,padding:3,marginLeft:10,marginRight:10}} color="#000000">Close</Button>
                     </BottomSheet>
                     
                     <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={() => setIsVisible(true)}>Seats</Button>
-                        <BottomSheet modalProps={{}} isVisible={isVisible}>
+                        <BottomSheet isVisible={isVisible}>
                         <View style={{backgroundColor:'#FFFFFF'}}> 
                             <Checkbox.Item label=" 🟨  Filling Fast" status='unchecked' onPress={()=>setSeattype("Filling Fast")}  color='#000000' uncheckedColor='#D3D3D3'/>
                             <Checkbox.Item label=" 🟦  Available" status='unchecked'  onPress={()=>setSeattype("Available")}/>
                             <Checkbox.Item label=" 🟩  Booked" status='unchecked'  onPress={()=>setSeattype("Booked")} />
-                            <Button onPress={Savebuttonpressed} mode="contained" style={{borderRadius:10,padding:3,marginLeft:10,marginRight:10}} color="#000000">Save</Button>
+                            <Button onPress={Savebuttonpressed} mode="contained" style={styles.saveButtonStyling} color="#000000">Save</Button>
                             <Button></Button>
                         </View>
                     </BottomSheet>
@@ -210,9 +216,28 @@ const styles=StyleSheet.create({
         marginLeft:10,
         marginTop:5
     },
+
     buttonStyle:{
         marginLeft:10,
         borderRadius:15
-    }
+    },
+
+    textviewstyle : {
+        flex:1,
+        flexDirection:'column',
+        marginTop:10
+    },
+
+    titlestyle : {
+        marginTop:10,
+        marginLeft:10
+    },
+
+    saveButtonStyling:{
+        borderRadius:10,
+        padding:3,
+        marginLeft:10,
+        marginRight:10
+    },
     
 })
