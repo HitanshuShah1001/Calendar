@@ -4,9 +4,9 @@ createServer({
   routes() {
     this.namespace = "api"
 
-    this.get("/classes", () => {
+    this.get("/events", () => {
       return {
-        classes: [
+        events: [
           { id: 1, Iname:'Michael Scott',classname: "3 Dimensional Connections", Time:"8:30 AM - 12:00 PM IST",Duration:"30 min",Type:"Finished",Seats:'Filling Fast',Date:'2021-07-10',Attending:'110',Instructorimage:'https://previews.123rf.com/images/mimagephotography/mimagephotography1602/mimagephotography160200817/53356005-close-up-portrait-of-an-attractive-young-african-american-man-on-white-background.jpg'},
           { id: 2, Iname:'Payal Arora',classname: "The Next Billion and the Rise of Irrational Design", Time:"6:00 PM , 9:30 PM IST",Duration:"2 days",Type:"Registered",Date:'2021-07-11',Attending:'83',Seats:"Available",Instructorimage:'https://previews.123rf.com/images/marctran/marctran1903/marctran190300253/122835357-.jpg'},
           { id: 3, Iname:'Don Norman',classname: "Designing your life", Time:"1:30 - 2:30 PM IST",Duration:"45 min",Type:"Register",Seats:"Booked",Date:'2021-07-10',Attending:'96',Instructorimage:'https://previews.123rf.com/images/nejron/nejron1904/nejron190400874/121899496-hindus-na-castingu.jpg'},

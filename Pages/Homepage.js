@@ -1,11 +1,12 @@
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
-import {Text, View,ScrollView,SafeAreaView,StyleSheet,Image} from 'react-native';
-import {BottomSheet,ListItem,Divider} from 'react-native-elements';
-import  {Title,Avatar,Card,Checkbox,Appbar,Searchbar,Button,Caption} from 'react-native-paper';
+import {Calendar} from 'react-native-calendars';
+import {Text, View,SafeAreaView,StyleSheet,Image} from 'react-native';
+import {BottomSheet,SearchBar} from 'react-native-elements';
+import  {Title,Avatar,Checkbox,Appbar,Button,Caption} from 'react-native-paper';
 import React from 'react';
 import { useState,useEffect } from 'react';
 import Cardview from './Cardview';
 import './Server';
+import Statictext from './Statictext';
 
 export default function Homepage(){ 
     
@@ -17,11 +18,13 @@ export default function Homepage(){
 
     const [buttoncolor,setButtoncolor] = useState('#000000'); // used for changing the button colour
 
-    const [classes,setClasses] = useState([]); //used for unwrapping and storing json data from API
+    const [events,setEvents] = useState([]); //used for unwrapping and storing json data from API
     
     const [calendarvisible,setCalendarvisible] = useState(false); //whether or not calendar is shown
 
     const [constevents,setConstevents] = useState([]);
+
+
 
     /* seattype used for storing the seattype selected("Available,Filling fast,Booked") 
     for displaying appropriate results*/
@@ -32,17 +35,16 @@ export default function Homepage(){
     /*useEffect hook is used for fetching the data whenever the app is loaded */
 
     useEffect(()=> {
-        fetch('/api/classes')
+        fetch('/api/events')
         .then(res => res.json())
-        .then(json => setClasses(json.classes))
+        .then(json => setEvents(json.events))
         .catch(err => console.log(err))
-        setConstevents(classes);
-        console.warn(constevents);
+        setConstevents(events);
     },[])
 
     
     /*
-    markedday is a dictionary that stores the date of the events by extracting it from classes object 
+    markedday is a dictionary that stores the date of the events by extracting it from events object 
     and the values are the filters that are applied such as the color to be shown in the calendar and this markedday
     is used  as  a prop in calendar component below
     */
@@ -51,17 +53,18 @@ export default function Homepage(){
         constevents.map((item) => {
             markedDay[item.Date] = {
             selected: true,
-            
             selectedColor: "black",
             };
         });
     
     /* Fetch data for all the sessions when AllSessions button is clicked */
 
-    const AllSessions = () => {
-        fetch('api/classes')
+    const AllSessions = (num) => {
+
+        setCount(num)
+        fetch('api/events')
         .then(res => res.json())
-        .then(json => setClasses(json.classes))
+        .then(json => setEvents(json.events))
         .catch(err => console.log(err))
 
     }
@@ -71,36 +74,38 @@ export default function Homepage(){
     the user has registered to go to */
 
     const MySessions = () => {
-        fetch('api/classes')
+
+        fetch('api/events')
         .then(res => res.json())
-        .then(json => setClasses(json.classes.filter(obj=>obj.Type=='Registered')))
+        .then(json => setEvents(json.events.filter(obj=>obj.Type=='Registered')))
         .catch(err => console.log(err))
+
     }
 
-    const Query = () => {
-        fetch('api/classes')
+    const Query = (text) => {
+        fetch('api/events')
         .then(res => res.json())
-        .then(json => setClasses(json.classes.filter(obj=>obj.Iname==SearchQuery)))
+        .then(json => setEvents(json.events.filter(obj=>obj.Iname==text)))
         .catch(err => console.log(err))
-        setCount(0);
-        setSearchQuery("");
+        setSearchQuery(text);
+        
     }
 
     const Savebuttonpressed = () => {
 
         if(seattype!="")
         {
-            fetch('/api/classes')
+            fetch('/api/events')
             .then(res => res.json())
-            .then(json => setClasses(json.classes.filter(obj=>obj.Seats==seattype)))
+            .then(json => setEvents(json.events.filter(obj=>obj.Seats==seattype)))
             .catch(err => console.log(err))
             setIsVisible(false);
         }
         else
         {
-            fetch('/api/classes')
+            fetch('/api/events')
             .then(res => res.json())
-            .then(json => setClasses(json.classes))
+            .then(json => setEvents(json.events))
             .catch(err => console.log(err))
             setIsVisible(false);
         }
@@ -119,29 +124,43 @@ export default function Homepage(){
     filtered data from the api */
 
     const Selecteddaysevent = (date) => {
-        fetch('/api/classes')
+
+        fetch('/api/events')
         .then(res => res.json())
-        .then(json => setClasses(json.classes.filter(obj=>obj.Date==date)))
+        .then(json => setEvents(json.events.filter(obj=>obj.Date==date)))
         .catch(err => console.log(err))
         setCalendarvisible(false);
+
     }
 
 
     let header = count!==0 ? 
     <SafeAreaView>
-        <View style={{flexDirection:'row'}}> 
-        <Searchbar placeholder="Enter instructor's name" style={{width:'90%',borderRadius:20}} onChangeText={(text) => setSearchQuery(text)}/> 
-        <Button onPress={Query} icon="magnify"/>
+        <View > 
+         <SearchBar
+         placeholder="Search Here..."
+         platform='ios'
+         onChangeText={(text) => Query(text)}
+         value={SearchQuery}
+         autoCorrect={false}
+         cancelButtonTitle="Cancel"
+         onCancel={() => AllSessions(0)}
+         style={{width:'100%'}}
+         onClear={() => AllSessions(1)}
+         
+        />
         </View>
     </SafeAreaView>
     :
     <SafeAreaView> 
+
         <Appbar.Header style={{backgroundColor: '#FFFFFF'}}> 
         <Appbar.Action  icon="reorder-horizontal" style={{backgroundColor:'#FFFFFF'}} color='#A9A9A9'/>
         <Appbar.Content title="" subtitle="" />
             <Appbar.Action  icon="magnify" onPress={() => setCount(1)} color="#A9A9A9"/>
             <Avatar.Image size={34} source={{uri:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRblGHmIA70kc9T4UJy-AFc0YLcnPpu5kwR2Q&usqp=CAU'}}/>
         </Appbar.Header>
+        
     </SafeAreaView>
 
     /*
@@ -155,24 +174,23 @@ export default function Homepage(){
 
         <>
         {header}
-        <View style={styles.textviewstyle}> 
-            <Title style={styles.titlestyle}>Sessions</Title>
-            <Text style={styles.titlestyle}>Discover on-demand learning,discussions</Text>
-            <Text style={styles.textStyle}>and interactive sesssions in your </Text>
-            <Text style={styles.textStyle}>community. </Text>
-        </View>
         
-        <View style={{flex:4}}>
+        <Statictext />
+
+        <View style={{flex:4}}> 
 
             <View style={{flexDirection:'row'}}>
                 <Button color={buttoncolor} onPress={AllSessions}>All Sessions</Button>
                 <Button color={buttoncolor} onPress={MySessions}>My Sessions</Button>
+
             </View>
-            
+
             <View style={{flexDirection:'row',marginTop:15}}>
 
                 <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={() => setCalendarvisible(true)}>Date</Button>
+
                     <BottomSheet  isVisible={calendarvisible}>
+
                         <Calendar
                             markedDates={ markedDay }
                             current={'2021-03-01'}
@@ -187,23 +205,29 @@ export default function Homepage(){
                             disableMonthChange={false}
                             firstDay={1}
                             />
+
                         <Button onPress={()=>setCalendarvisible(false)} mode="contained" style={{borderRadius:10,padding:3,marginLeft:10,marginRight:10}} color="#000000">Close</Button>
+                    
                     </BottomSheet>
                     
                     <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={() => setIsVisible(true)}>Seats</Button>
+
                         <BottomSheet isVisible={isVisible}>
-                        <View style={{backgroundColor:'#FFFFFF'}}> 
-                            <Checkbox.Item label=" 🟨  Filling Fast" status='unchecked' onPress={()=>setSeattype("Filling Fast")}  color='#000000' uncheckedColor='#D3D3D3'/>
-                            <Checkbox.Item label=" 🟦  Available" status='unchecked'  onPress={()=>setSeattype("Available")}/>
-                            <Checkbox.Item label=" 🟩  Booked" status='unchecked'  onPress={()=>setSeattype("Booked")} />
-                            <Button onPress={Savebuttonpressed} mode="contained" style={styles.saveButtonStyling} color="#000000">Save</Button>
-                            <Button></Button>
-                        </View>
-                    </BottomSheet>
-                <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' > Instructor</Button>
+
+                            <View style={{backgroundColor:'#FFFFFF'}}> 
+                                <Checkbox.Item label=" 🟨  Filling Fast" status='unchecked' onPress={()=>setSeattype("Filling Fast")}  color='#000000' uncheckedColor='#D3D3D3'/>
+                                <Checkbox.Item label=" 🟦  Available" status='unchecked'  onPress={()=>setSeattype("Available")}/>
+                                <Checkbox.Item label=" 🟩  Booked" status='unchecked'  onPress={()=>setSeattype("Booked")} />
+                                <Button onPress={Savebuttonpressed} mode="contained" style={styles.saveButtonStyling} color="#000000">Save</Button>
+                                <Button></Button>
+                            </View>
+
+                        </BottomSheet>
+
+                    <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={()=>setCount(1)}> Instructor</Button>
 
             </View>
-            <Cardview classeslist={classes} />
+            <Cardview eventslist={events}  />
             
         </View>
 
@@ -212,27 +236,10 @@ export default function Homepage(){
 }
 //styling parameters for buttons,text,cards
 const styles=StyleSheet.create({
-    textStyle:{
-        marginLeft:10,
-        marginTop:5
-    },
-
     buttonStyle:{
         marginLeft:10,
         borderRadius:15
     },
-
-    textviewstyle : {
-        flex:1,
-        flexDirection:'column',
-        marginTop:10
-    },
-
-    titlestyle : {
-        marginTop:10,
-        marginLeft:10
-    },
-
     saveButtonStyling:{
         borderRadius:10,
         padding:3,
