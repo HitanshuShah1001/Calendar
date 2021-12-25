@@ -4,6 +4,7 @@ import  {Title} from 'react-native-paper';
 import React from 'react';
 
 const Statictext = () => {
+
     return (
         <View style={styles.textviewstyle}> 
             <Title style={styles.titlestyle}>Sessions</Title>
@@ -12,9 +13,11 @@ const Statictext = () => {
             <Text style={styles.textStyle}>community. </Text>
         </View>
     );
+
 }
 
-const styles=StyleSheet.create({
+const styles = StyleSheet.create({
+    
     textStyle:{
         marginLeft:10,
         marginTop:5
@@ -30,6 +33,7 @@ const styles=StyleSheet.create({
         marginTop:10,
         marginLeft:10
     },  
+
 })
 
 export default Statictext;

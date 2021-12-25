@@ -11,10 +11,11 @@ import { createServer } from "miragejs"
 createServer({
 
   routes() {
-    
+
     this.namespace = "api"
 
     this.get("/events", () => {
+      
       return {
         events: [
           { id: 1, Iname:'Michael Scott',classname: "3 Dimensional Connections", Time:"8:30 AM - 12:00 PM IST",Duration:"30 min",Type:"Finished",Seats:'',Date:'2021-07-10',Attending:'110',SeatsLeft:"",Instructorimage:'https://previews.123rf.com/images/mimagephotography/mimagephotography1602/mimagephotography160200817/53356005-close-up-portrait-of-an-attractive-young-african-american-man-on-white-background.jpg'},

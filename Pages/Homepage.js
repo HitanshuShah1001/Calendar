@@ -25,12 +25,6 @@ export default function Homepage(){
 
     const [constevents,setConstevents] = useState([]); //used for storing the original data from API as backup,this wont change on API calls.
 
-    const [datebuttoncolor,setDatebuttoncolor] = useState('#D3D3D3');
-
-    const [seatbuttoncolor,setSeatbuttoncolor] = useState('#D3D3D3');
-
-    const [instructorbuttoncolor,setInstructorbuttoncolor] = useState('#D3D3D3');
-
     /* seattype used for storing the seattype selected("Available,Filling fast,Booked") 
     for displaying appropriate results*/
 
@@ -140,7 +134,8 @@ export default function Homepage(){
     /* 
     The selecteddaysevent takes a date as a parameter and is invoked 
     when the date on the calendar was selected and then returns the date 
-    filtered data from the api */
+    filtered data from the api 
+    */
 
     const Selecteddaysevent = (date) => {
 
@@ -153,7 +148,7 @@ export default function Homepage(){
     }
 
 
-    let header = count!==0 ? 
+    let header = count!==0 ?
     <SafeAreaView>
         <View > 
          <SearchBar

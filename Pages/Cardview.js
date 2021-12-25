@@ -11,7 +11,9 @@ import  {Avatar,Button,Card} from 'react-native-paper';
 import React from 'react';
 
 const Cardview = (props) => {
+    
     var noofevents = Object.keys(props.eventslist).length;
+
     if(noofevents!==0){
         return (
 
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
         marginTop:15,
     },
     Titlestyle:{
-        ontSize:18,
+        fontSize:18,
         marginBottom:5
     },
     buttonStyle:{
