@@ -1,7 +1,17 @@
+/* 
+    In order to create a mock API ,
+    Mirage.js is used.It is a fake server
+    that runs on the client.
+    A simple mirage route handler 
+    is used to handle the /api/events network 
+    requests.
+*/
 import { createServer } from "miragejs"
 
 createServer({
+
   routes() {
+    
     this.namespace = "api"
 
     this.get("/events", () => {
