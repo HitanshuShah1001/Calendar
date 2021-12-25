@@ -1,6 +1,6 @@
-import {Text, View,ScrollView} from 'react-native';
+import {Text, View,ScrollView,StyleSheet,Image} from 'react-native';
 import {Divider} from 'react-native-elements';
-import  {Avatar,Card,Button} from 'react-native-paper';
+import  {Avatar,Button,Card} from 'react-native-paper';
 import React from 'react';
 
 const Cardview = (props) => {
@@ -13,19 +13,29 @@ const Cardview = (props) => {
             props.eventslist.map((events,idx) => {
                     return(
                     <View key={idx} >
-                        <Card.Title
-                            title={events.classname +  '\n' + events.Iname}
-                            subtitle={events.Time + " ◉ " + events.Date.split("-").reverse().join("-")
-                                        + '\n' + "👥 " + events.Attending + " " + events.Seats}
-                            titleStyle={{fontSize:18}}
-                            titleNumberOfLines={3}
-                            subtitleNumberOfLines={4}
-                            style={{marginTop:18}}
-                            left={(props) => <Avatar.Image {...props} size={50} source={{uri:events.Instructorimage}} />}
+                            <View style={styles.user}>
+                                <Image
+                                    style={styles.image}
+                                    resizeMode="cover"
+                                    source={{ uri: events.Instructorimage }}
+                                />
+                                <View style={{flexDirection:'column',flex:1}}>
+                                    <Card.Title
+                                        title={events.classname +  '\n' + events.Iname}
+                                        subtitle={events.Time + " ◉ " + events.Date.split("-").reverse().join("-")
+                                                    + '\n' + "👥 " + events.Attending + " " + events.Seats}
+                                        titleStyle={{fontSize:18,marginBottom:5}}
+                                        
+                                        titleNumberOfLines={3}
+                                        subtitleNumberOfLines={4}   
+                                    />
+                                    <Button color='#D3D3D3' mode='contained' compact={true} width='30%' labelStyle={{fontSize:10}}
+                                    style={{borderRadius:15,marginTop:8,marginLeft:10}}>{events.Type}</Button>
+                                </View>
+                                
+                            </View>
+                            <Divider orientation="horizontal" width={1} color='#D3D3D3' style={{marginLeft:13,marginRight:13,marginTop:10}}/>
                             
-                        />
-                        <Button color='#D3D3D3' mode='contained' compact={true} width='30%' style={{borderRadius:15,marginBottom:8,marginTop:8,marginLeft:10,alignSelf:'center'}}>{events.Type}</Button>
-                        <Divider orientation="horizontal" width={1} color='#D3D3D3' style={{marginLeft:10,marginRight:10}}/>
                     </View>
                     );
                 }
@@ -43,4 +53,17 @@ const Cardview = (props) => {
     }
 
 }
+const styles = StyleSheet.create({
+    image: {
+      width: 65,
+      height: 65,
+      borderRadius:20,
+      marginLeft:5,
+      marginTop:6,
+    },
+    user:{
+        flexDirection:'row',
+        marginTop:15,
+    }
+  });
 export default Cardview;
