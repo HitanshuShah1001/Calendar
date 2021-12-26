@@ -2,7 +2,8 @@
 In this component a layout is created for displaying the data of events,
 map function is used which  takes all objects in a list
 and runs through a function to create a new list with all objects
-
+Along with this,everything is explained in detail in Readme.md file
+So I request  to kindly go through it.
 */
 
 
@@ -54,7 +55,7 @@ const Cardview = (props) => {
                                 <Image
                                     style={styles.image}
                                     resizeMode="cover"
-                                    source={{ uri: events.Instructorimage }}
+                                    source={{uri:events.Instructorimage}}
                                 />
 
                                 <View style={styles.eventinfo}>

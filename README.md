@@ -15,6 +15,8 @@ Basic Features:
 5.Filtering by tags
 6.Loading states and empty states.
 
+The workflow of the app has been described through Screenshots and Screen Recording as well.
+It is located in the Screenshots and Demo folder inside the project files.
 
 ## Workflow of the App
 

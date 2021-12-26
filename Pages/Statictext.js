@@ -1,6 +1,8 @@
 /*This component is created and used for
 displaying the static text of that is shown above the All Sessions
 and my sessions buttons.
+Along with this,everything is explained in detail in Readme.md file
+So I request  to kindly go through it.
 */
 
 import {Text,StyleSheet,View} from 'react-native';

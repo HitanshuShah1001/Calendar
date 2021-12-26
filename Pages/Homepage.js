@@ -1,3 +1,10 @@
+/* 
+This file is the centre point of the app 
+where every thing from other files/components is merged together to 
+develop the app.
+Along with the comments below, everything is explained in  detail in Readme.md file
+I request to kindly go through it.
+*/
 import {Calendar} from 'react-native-calendars';
 import {Text, View,SafeAreaView,StyleSheet,Image,TouchableHighlight, Touchable} from 'react-native';
 import {BottomSheet,SearchBar} from 'react-native-elements';
@@ -51,7 +58,8 @@ export default function Homepage(){
 
     /*
     These functions(FFfilter,AvailableFilter,BookedFilter) are used for conditioning logic for the toggling of 
-    switches used in filtering seats.
+    switches used in filtering seats.Switch was used instead of checkbox because in IOS,checked as well as unchecked checkbox aren't 
+    supported.
     */
 
     const FFfilter = () => {
