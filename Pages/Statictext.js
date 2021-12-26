@@ -1,3 +1,7 @@
+/*This component is created and used for
+displaying the static text of that is shown above the All Sessions
+and my sessions buttons.
+*/
 
 import {Text,StyleSheet,View} from 'react-native';
 import  {Title} from 'react-native-paper';
@@ -17,7 +21,7 @@ const Statictext = () => {
 }
 
 const styles = StyleSheet.create({
-    
+
     textStyle:{
         marginLeft:10,
         marginTop:5

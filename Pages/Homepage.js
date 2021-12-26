@@ -1,7 +1,7 @@
 import {Calendar} from 'react-native-calendars';
 import {Text, View,SafeAreaView,StyleSheet,Image,TouchableHighlight, Touchable} from 'react-native';
 import {BottomSheet,SearchBar} from 'react-native-elements';
-import  {Title,Avatar,Checkbox,Appbar,Button,Caption} from 'react-native-paper';
+import  {Title,Avatar,Appbar,Button,Switch, Subheading} from 'react-native-paper';
 import React from 'react';
 import { useState,useEffect } from 'react';
 import Cardview from './Cardview';
@@ -9,6 +9,7 @@ import './Server';
 import Statictext from './Statictext';
 
 export default function Homepage(){ 
+    
     const [count,setCount] = useState(0); //used for showing searchbar and switching back to header view
 
     const [SearchQuery,setSearchQuery] = useState(""); //storing the value that was given into search bar to fetch  appropriate data
@@ -29,6 +30,13 @@ export default function Homepage(){
     for displaying appropriate results*/
 
     const [seattype,setSeattype] = useState("");  
+
+    const [isFFSwitchOn, setIsFFSwitchOn] = React.useState(false);
+
+    const [isAvailableSwitchOn, setIsAvailableSwitchOn] = React.useState(false);
+
+    const [isBookedSwitchOn, setIsBookedSwitchOn] = React.useState(false);
+
    
     /*useEffect hook is used for fetching the data whenever the app is loaded */
 
@@ -40,6 +48,55 @@ export default function Homepage(){
         .catch(err => console.log(err))
         
     },[])
+
+    /*
+    These functions(FFfilter,AvailableFilter,BookedFilter) are used for conditioning logic for the toggling of 
+    switches used in filtering seats.
+    */
+
+    const FFfilter = () => {
+
+        if(isFFSwitchOn)
+        {
+            setSeattype("");
+            setIsFFSwitchOn(false);
+        }
+        else{
+            setSeattype("Filling Fast");
+            setIsFFSwitchOn(true);
+            setIsAvailableSwitchOn(false);
+            setIsBookedSwitchOn(false);
+        }
+    }
+
+    const Availablefilter = () => {
+        if(isAvailableSwitchOn)
+        {
+            setSeattype("");
+            setIsAvailableSwitchOn(false);
+        }
+        else{
+            setSeattype("Available");
+            setIsFFSwitchOn(false);
+            setIsAvailableSwitchOn(true);
+            setIsBookedSwitchOn(false);
+        }
+    }
+
+    const Bookedfilter = () => {
+        if(isBookedSwitchOn)
+        {
+            setSeattype("");
+            setIsBookedSwitchOn(false);
+        }
+        else{
+            setSeattype("Booked");
+            setIsFFSwitchOn(false);
+            setIsAvailableSwitchOn(false);
+            setIsBookedSwitchOn(true);
+        }
+    }
+
 
     
     /*
@@ -123,13 +180,6 @@ export default function Homepage(){
             setIsVisible(false);
         }
     }
-
-    /*
-    Close the Seat modal for showing the filters of seats when the Savebutton is clicked 
-    and if no filter(Available,Filling Fast,Booked) was selected,
-    then showing unfiltered data 
-    */
-
     
     /* 
     The selecteddaysevent takes a date as a parameter and is invoked 
@@ -148,6 +198,12 @@ export default function Homepage(){
     }
 
 
+    /*
+        header is a ternary operator that checks if count variable  is 0 and if it 
+        is then it returns the normal header and if it isn't, then it returns 
+        searchbar.Basically for switching between Header view and search view
+    */
+   
     let header = count!==0 ?
     <SafeAreaView>
         <View > 
@@ -203,7 +259,6 @@ export default function Homepage(){
                 <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={() => setCalendarvisible(true)}>Date</Button>
 
                     <BottomSheet  isVisible={calendarvisible}>
-
                         <Calendar
                             markedDates={ markedDay }
                             current={'2021-03-01'}
@@ -226,14 +281,27 @@ export default function Homepage(){
                     <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={() => setIsVisible(true)}>Seats</Button>
 
                         <BottomSheet isVisible={isVisible}>
+                            <View style={{backgroundColor:'#FFFFFF'}}>
 
-                            <View style={{backgroundColor:'#FFFFFF'}}> 
-                                <Checkbox.Item label=" 🟨  Filling Fast" status='unchecked' onPress={()=>setSeattype("Filling Fast")}  color='#000000' uncheckedColor='#D3D3D3'/>
-                                <Checkbox.Item label=" 🟦  Available" status='unchecked'  onPress={()=>setSeattype("Available")}/>
-                                <Checkbox.Item label=" 🟩  Booked" status='unchecked'  onPress={()=>setSeattype("Booked")} />
-                                <Button onPress={Savebuttonpressed} mode="contained" style={styles.saveButtonStyling} color="#000000">Save</Button>
-                                <Button></Button>
+                                <View style={{flexDirection:'row',marginTop:10}}>
+                                    <Subheading style={styles.checkboxtextstyling}>🟨  Filling Fast</Subheading>
+                                    <Switch value={isFFSwitchOn} onValueChange={FFfilter} style={{marginLeft:60,marginTop:5}} color='#000000' />
+                                </View>
+
+                                <View style={{flexDirection:'row',marginTop:20}}>
+                                    <Subheading style={styles.checkboxtextstyling}>🟦  Available </Subheading>
+                                    <Switch value={isAvailableSwitchOn} onValueChange={Availablefilter} style={{marginLeft:65,marginTop:5}} color='#000000'/>
+                                </View>
+                                
+                                <View style={{flexDirection:'row',marginTop:20}}>
+                                    <Subheading style={[styles.checkboxtextstyling]}>🟩  Booked  </Subheading>
+                                    <Switch value={isBookedSwitchOn} onValueChange={Bookedfilter} style={{marginLeft:70,marginTop:5}} color='#000000'/>
+                                </View>
+
+                                <Button onPress={Savebuttonpressed} mode="contained" compact={true} style={styles.saveButtonStyling} color="#000000">Save</Button>
+
                             </View>
+                            
 
                         </BottomSheet>
 
@@ -257,7 +325,12 @@ const styles=StyleSheet.create({
         borderRadius:20,
         padding:3,
         marginLeft:10,
-        marginRight:10
+        marginRight:10,
+        marginTop:15,
     },
+    checkboxtextstyling:{
+        marginTop:10,
+        marginLeft:10
+    }
     
 })

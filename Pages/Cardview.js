@@ -2,6 +2,7 @@
 In this component a layout is created for displaying the data of events,
 map function is used which  takes all objects in a list
 and runs through a function to create a new list with all objects
+
 */
 
 
@@ -11,10 +12,11 @@ import  {Avatar,Button,Card} from 'react-native-paper';
 import React from 'react';
 
 const Cardview = (props) => {
-    
+
     var noofevents = Object.keys(props.eventslist).length;
 
     if(noofevents!==0){
+
         return (
 
             /*
