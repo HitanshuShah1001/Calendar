@@ -8,7 +8,7 @@ and runs through a function to create a new list with all objects
 
 import {Text, View,ScrollView,StyleSheet,Image} from 'react-native';
 import {Divider} from 'react-native-elements';
-import  {Avatar,Button,Card} from 'react-native-paper';
+import  {Avatar,Button,Card,Subheading} from 'react-native-paper';
 import React from 'react';
 
 const Cardview = (props) => {
@@ -88,7 +88,7 @@ const Cardview = (props) => {
     {
         return (
             <>
-                <Text style={{textAlign:'center',marginTop:30}}>No events found</Text>
+                <Subheading style={{textAlign:'center',marginTop:30}}>No events found</Subheading>
             </>
         );
     }
