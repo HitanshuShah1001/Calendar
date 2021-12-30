@@ -57,21 +57,17 @@ const Cardview = (props) => {
                                     resizeMode="cover"
                                     source={{uri:events.Instructorimage}}
                                 />
-
                                 <View style={styles.eventinfo}>
-
                                     <Card.Title
-
                                         title={events.classname +  '\n' + events.Iname}
                                         subtitle={events.Time + " ◉ " + events.Date.split("-").reverse().join("-")
                                                     + '\n' + "👥 " + events.Attending + " " + events.Seats}
                                         titleStyle={styles.Titlestyle}
+                                        subtitleStyle={styles.Subtitlestyle}
                                         titleNumberOfLines={3}
                                         subtitleNumberOfLines={4}  
-
                                     />
-
-                                    <Button color='#D3D3D3' mode='contained' compact={true} width='30%' labelStyle={{fontSize:10}}
+                                    <Button color='#D3D3D3' mode='contained' compact={true} width='30%' labelStyle={{fontSize:8,color:'#FFFFFF'}}
                                     style={styles.buttonStyle}>{events.Type}</Button>
 
                                 </View>
@@ -98,8 +94,8 @@ const Cardview = (props) => {
 const styles = StyleSheet.create({
 
     image: {
-      width: 65,
-      height: 65,
+      width: 80,
+      height: 80,
       borderRadius:20,
       marginLeft:5,
       marginTop:6,
@@ -109,13 +105,22 @@ const styles = StyleSheet.create({
         marginTop:15,
     },
     Titlestyle:{
-        fontSize:18,
-        marginBottom:5
+        fontSize:16,
+        marginBottom:5,
+        fontWeight:"600",
+        fontSize:16,
+        color:'#222222'
+    },
+    Subtitlestyle:{
+        fontWeight:"400",
+        color:'#666666'
     },
     buttonStyle:{
-        borderRadius:15,
+        borderRadius:22,
         marginTop:8,
-        marginLeft:10
+        marginLeft:10,
+        backgroundColor:'#444444',
+        
     },
     dividerstyle:{
         marginLeft:13,
@@ -125,7 +130,7 @@ const styles = StyleSheet.create({
     eventinfo:{
         flexDirection:'column',
         flex:1
-    }
+    },
 
   });
 export default Cardview;

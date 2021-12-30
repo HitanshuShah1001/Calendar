@@ -14,7 +14,7 @@ const Statictext = () => {
     return (
         <View style={styles.textviewstyle}> 
             <Title style={styles.titlestyle}>Sessions</Title>
-            <Text style={styles.titlestyle}>Discover on-demand learning,discussions</Text>
+            <Text style={styles.textStyle}>Discover on-demand learning,discussions</Text>
             <Text style={styles.textStyle}>and interactive sesssions in your </Text>
             <Text style={styles.textStyle}>community. </Text>
         </View>
@@ -26,7 +26,10 @@ const styles = StyleSheet.create({
 
     textStyle:{
         marginLeft:10,
-        marginTop:5
+        marginTop:10,
+        fontWeight:'400',
+        fontSize:16,
+        
     },
 
     textviewstyle : {
@@ -37,7 +40,10 @@ const styles = StyleSheet.create({
 
     titlestyle : {
         marginTop:10,
-        marginLeft:10
+        fontSize:26,
+        marginLeft:10,
+        fontWeight:"600",
+
     },  
 
 })

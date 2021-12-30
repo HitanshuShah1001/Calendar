@@ -5,15 +5,17 @@ develop the app.
 Along with the comments below, everything is explained in  detail in Readme.md file
 I request to kindly go through it.
 */
-import {Calendar} from 'react-native-calendars';
 import {Text, View,SafeAreaView,StyleSheet,Image,TouchableHighlight, Touchable} from 'react-native';
 import {BottomSheet,SearchBar} from 'react-native-elements';
 import  {Title,Avatar,Appbar,Button,Switch, Subheading} from 'react-native-paper';
 import React from 'react';
-import { useState,useEffect } from 'react';
+import { useState,useEffect,useCallback } from 'react';
 import Cardview from './Cardview';
 import './Server';
 import Statictext from './Statictext';
+import Calendarview from './Calendarview';
+import Seatselectionfilter from './Seatselectionfilter';
+import Header from './Header';
 
 export default function Homepage(){ 
     
@@ -31,20 +33,11 @@ export default function Homepage(){
     
     const [calendarvisible,setCalendarvisible] = useState(false); //whether or not calendar is shown
 
-    const [constevents,setConstevents] = useState([]); //used for storing the original data from API as backup,this wont change on API calls.
-
+   
     /* seattype used for storing the seattype selected("Available,Filling fast,Booked") 
     for displaying appropriate results*/
 
     const [seattype,setSeattype] = useState("");  
-
-    const [isFFSwitchOn, setIsFFSwitchOn] = React.useState(false);
-
-    const [isAvailableSwitchOn, setIsAvailableSwitchOn] = React.useState(false);
-
-    const [isBookedSwitchOn, setIsBookedSwitchOn] = React.useState(false);
-
-   
     /*useEffect hook is used for fetching the data whenever the app is loaded */
 
     useEffect(()=> {
@@ -53,75 +46,8 @@ export default function Homepage(){
         .then(res => res.json())
         .then(json => setEvents(json.events))
         .catch(err => console.log(err))
-        
     },[])
 
-    /*
-    These functions(FFfilter,AvailableFilter,BookedFilter) are used for conditioning logic for the toggling of 
-    switches used in filtering seats.Switch was used instead of checkbox because in IOS,checked as well as unchecked checkbox aren't 
-    supported.
-    */
-
-    const FFfilter = () => {
-
-        if(isFFSwitchOn)
-        {
-            setSeattype("");
-            setIsFFSwitchOn(false);
-        }
-        else{
-            setSeattype("Filling Fast");
-            setIsFFSwitchOn(true);
-            setIsAvailableSwitchOn(false);
-            setIsBookedSwitchOn(false);
-        }
-    }
-
-    const Availablefilter = () => {
-        if(isAvailableSwitchOn)
-        {
-            setSeattype("");
-            setIsAvailableSwitchOn(false);
-        }
-        else{
-            setSeattype("Available");
-            setIsFFSwitchOn(false);
-            setIsAvailableSwitchOn(true);
-            setIsBookedSwitchOn(false);
-        }
-    }
-
-    const Bookedfilter = () => {
-        if(isBookedSwitchOn)
-        {
-            setSeattype("");
-            setIsBookedSwitchOn(false);
-        }
-        else{
-            setSeattype("Booked");
-            setIsFFSwitchOn(false);
-            setIsAvailableSwitchOn(false);
-            setIsBookedSwitchOn(true);
-        }
-    }
-
-
-    
-    /*
-    markedday is a dictionary that stores the date of the events by extracting it from events object 
-    and the values are the filters that are applied such as the color to be shown in the calendar and this markedday
-    is used  as  a prop in calendar component below
-    */
-
-
-    let markedDay={};
-    events.map((item) => {
-        markedDay[item.Date] = {
-        selected: true,
-        selectedColor: "black",
-        };
-    });
-    
     /* Fetch data for all the sessions when AllSessions button is clicked */
 
     const AllSessions = (num) => {
@@ -132,12 +58,7 @@ export default function Homepage(){
         .then(res => res.json())
         .then(json => setEvents(json.events))
         .catch(err => console.log(err))
-        setConstevents(events);
-
     }
-
-    
-    
 
     /* Fetch data when the MySessions button is clicked for 
     the user specific sessions which 
@@ -165,10 +86,17 @@ export default function Homepage(){
         setSearchQuery(text);
     }
 
-    /* On pressing the save button on the seat selection filter
-    if no option was selected,return unfiltered data,else
-    return data based on seattype selected
-    */
+    const calendarviewdata = (childdata) => {
+        setEvents(childdata);
+    }
+
+    const filteredseatdata = (childdata) => {
+        setSeattype(childdata);
+    }
+
+    const countvalue = (childdata) => {
+        setCount(childdata);
+    }
 
     const Savebuttonpressed = () => {
         if(seattype!="")
@@ -188,23 +116,6 @@ export default function Homepage(){
             setIsVisible(false);
         }
     }
-    
-    /* 
-    The selecteddaysevent takes a date as a parameter and is invoked 
-    when the date on the calendar was selected and then returns the date 
-    filtered data from the api 
-    */
-
-    const Selecteddaysevent = (date) => {
-
-        fetch('/api/events')
-        .then(res => res.json())
-        .then(json => setEvents(json.events.filter(obj=>obj.Date==date)))
-        .catch(err => console.log(err))
-        setCalendarvisible(false);
-
-    }
-
 
     /*
         header is a ternary operator that checks if count variable  is 0 and if it 
@@ -225,21 +136,11 @@ export default function Homepage(){
          onCancel={() => AllSessions(0)}
          style={{width:'100%'}}
          onClear={() => AllSessions(1)}
-         
         />
         </View>
     </SafeAreaView>
     :
-    <SafeAreaView> 
-
-        <Appbar.Header style={{backgroundColor: '#FFFFFF'}}> 
-        <Appbar.Action  icon="reorder-horizontal" style={{backgroundColor:'#FFFFFF'}} color='#A9A9A9'/>
-        <Appbar.Content title="" subtitle="" />
-            <Appbar.Action  icon="magnify" onPress={() => setCount(1)} color="#A9A9A9"/>
-            <Avatar.Image size={34} source={{uri:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRblGHmIA70kc9T4UJy-AFc0YLcnPpu5kwR2Q&usqp=CAU'}}/>
-        </Appbar.Header>
-
-    </SafeAreaView>
+    <Header countvalue = {countvalue} />
 
     /*
     Here,the screen is divided into two portions via the flex property.
@@ -256,65 +157,29 @@ export default function Homepage(){
         <Statictext />
 
         <View style={{flex:4}}> 
-            <View style={{flexDirection:'row'}}>
-                    <Button  color={allsessionsbuttoncolor} onPress={() => AllSessions(0)}>All Sessions</Button>
-                    <Button color={mysessionsbuttoncolor} onPress={MySessions}>My Sessions</Button>
+            <View style={{flexDirection:'row',marginTop:10}}>
+                    <Button  
+                    color={allsessionsbuttoncolor} 
+                    onPress={() => AllSessions(0)} 
+                    style={styles.sessionsbuttonstyling} 
+                    labelStyle={styles.buttonlabelstyle}>All Sessions</Button>
+                    <Button color={mysessionsbuttoncolor} onPress={MySessions} style={styles.sessionsbuttonstyling}>My Sessions</Button>
             </View>
-        
 
             <View style={{flexDirection:'row',marginTop:15}}>
-
                 <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={() => setCalendarvisible(true)}>Date</Button>
-
                     <BottomSheet  isVisible={calendarvisible}>
-                        <Calendar
-                            markedDates={ markedDay }
-                            current={'2021-03-01'}
-                            minDate={'2010-01-01'}
-                            maxDate={'2021-12-12'}
-                            onDayPress={day => {
-                                Selecteddaysevent(day.dateString);
-                            }}
-                            monthFormat={'MM yyyy'}
-                            hideArrows={false}
-                            hideExtraDays={false}
-                            disableMonthChange={false}
-                            firstDay={1}
-                            />
-
+                       <Calendarview calendarviewdata={calendarviewdata} />
                         <Button onPress={()=>setCalendarvisible(false)} mode="contained" style={styles.saveButtonStyling} color="#000000">Close</Button>
-                    
                     </BottomSheet>
-                    
                     <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={() => setIsVisible(true)}>Seats</Button>
-
                         <BottomSheet isVisible={isVisible}>
                             <View style={{backgroundColor:'#FFFFFF'}}>
-
-                                <View style={{flexDirection:'row',marginTop:10}}>
-                                    <Subheading style={styles.checkboxtextstyling}>🟨  Filling Fast</Subheading>
-                                    <Switch value={isFFSwitchOn} onValueChange={FFfilter} style={{marginLeft:60,marginTop:5}} color='#000000' />
-                                </View>
-
-                                <View style={{flexDirection:'row',marginTop:20}}>
-                                    <Subheading style={styles.checkboxtextstyling}>🟦  Available </Subheading>
-                                    <Switch value={isAvailableSwitchOn} onValueChange={Availablefilter} style={{marginLeft:65,marginTop:5}} color='#000000'/>
-                                </View>
-                                
-                                <View style={{flexDirection:'row',marginTop:20}}>
-                                    <Subheading style={[styles.checkboxtextstyling]}>🟩  Booked  </Subheading>
-                                    <Switch value={isBookedSwitchOn} onValueChange={Bookedfilter} style={{marginLeft:70,marginTop:5}} color='#000000'/>
-                                </View>
-
+                                <Seatselectionfilter filteredseatdata={filteredseatdata} />
                                 <Button onPress={Savebuttonpressed} mode="contained" compact={true} style={styles.saveButtonStyling} color="#000000">Save</Button>
-
                             </View>
-                            
-
                         </BottomSheet>
-
                     <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={()=>setCount(1)}> Instructor</Button>
-
             </View>
             <Cardview eventslist={events}  />
             
@@ -336,9 +201,13 @@ const styles=StyleSheet.create({
         marginRight:10,
         marginTop:15,
     },
-    checkboxtextstyling:{
-        marginTop:10,
-        marginLeft:10
+    sessionsbuttonstyling:{
+        fontSize:16
+    },
+    buttonlabelstyle:{
+        fontSize:16,
+        fontWeight:'400',
     }
+
     
 })
