@@ -16,8 +16,13 @@ import Statictext from './Statictext';
 import Calendarview from './Calendarview';
 import Seatselectionfilter from './Seatselectionfilter';
 import Header from './Header';
+import Date from '../Svgicons/Date';
+import Seats from '../Svgicons/Seats';
+import Instructor from '../Svgicons/Instructor';
 import Mysessions from '../Svgicons/Mysessions';
+import Calendarclosebutton from '../Svgicons/Calendarclosebutton';
 import Allsessions from '../Svgicons/Allsessions';
+import Seatfiltersave from '../Svgicons/Seatfiltersave';
 
 export default function Homepage(){ 
     
@@ -160,7 +165,7 @@ export default function Homepage(){
 
         <View style={{flex:4}}> 
             <View style={{flexDirection:'row',marginTop:10}}>
-                <Pressable onPress={() => AllSessions(0)} style={{marginLeft:15,marginRight:20}}>
+                <Pressable onPress={() => AllSessions(0)} style={{marginLeft:13,marginRight:20}}>
                     <Allsessions />
                 </Pressable>
                 <Pressable onPress={MySessions}>
@@ -169,19 +174,29 @@ export default function Homepage(){
             </View>
 
             <View style={{flexDirection:'row',marginTop:25}}>
-                <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={() => setCalendarvisible(true)}>Date</Button>
-                    <BottomSheet  isVisible={calendarvisible}>
-                       <Calendarview calendarviewdata={calendarviewdata} />
-                        <Button onPress={()=>setCalendarvisible(false)} mode="contained" style={styles.saveButtonStyling} color="#000000">Close</Button>
-                    </BottomSheet>
-                    <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={() => setIsVisible(true)}>Seats</Button>
-                        <BottomSheet isVisible={isVisible}>
-                            <View style={{backgroundColor:'#FFFFFF'}}>
-                                <Seatselectionfilter filteredseatdata={filteredseatdata} />
-                                <Button onPress={Savebuttonpressed} mode="contained" compact={true} style={styles.saveButtonStyling} color="#000000">Save</Button>
-                            </View>
-                        </BottomSheet>
-                    <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={()=>setCount(1)}> Instructor</Button>
+                <Pressable onPress={() => setCalendarvisible(true)} style={{marginLeft:8}}>
+                    <Date />
+                </Pressable>
+                <BottomSheet  isVisible={calendarvisible}>
+                    <Calendarview calendarviewdata={calendarviewdata} />
+                        <Pressable onPress={()=>setCalendarvisible(false)}>
+                            <Calendarclosebutton />
+                        </Pressable>
+                </BottomSheet>
+                <Pressable onPress={()=>setIsVisible(true)} style={{marginLeft:8}}>
+                    <Seats />
+                </Pressable>
+                <BottomSheet isVisible={isVisible}>
+                    <View style={{backgroundColor:'#FFFFFF'}}>
+                        <Seatselectionfilter filteredseatdata={filteredseatdata} />
+                            <Pressable onPress={Savebuttonpressed}>
+                                <Seatfiltersave />
+                            </Pressable>
+                    </View>
+                </BottomSheet>
+                <Pressable onPress={()=>setCount(1)} style={{marginLeft:8}}>
+                    <Instructor />
+                </Pressable>
             </View>
             <Cardview eventslist={events}  />
             
