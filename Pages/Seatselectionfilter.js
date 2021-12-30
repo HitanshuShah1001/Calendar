@@ -41,6 +41,7 @@ const Seatselectionfilter = ({filteredseatdata}) => {
 
     return (
         <View style={{backgroundColor:'#FFFFFF'}}>
+            
             <Pressable onPress={FFfilter}>
                 <Fillingfast />
             </Pressable>

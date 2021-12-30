@@ -22,10 +22,12 @@ const  Header = ({countvalue}) => {
             <Mask1 />
             </View>
             <Appbar.Content title="" subtitle="" />
-            <Pressable onPress={() => setCount(1)} style={{marginRight:15}}>
+            <Pressable onPress={() => setCount(1)} style={{marginRight:20}}>
                 <Searchicon  />
             </Pressable>
+            <View style={{marginRight:15}}>
                 <Usericon />
+                </View>
             </Appbar.Header>
         </SafeAreaView>
     );

@@ -166,7 +166,7 @@ export default function Homepage(){
         <View style={{flex:4}}> 
             <View style={{flexDirection:'row',marginTop:10}}>
                 <Pressable onPress={() => AllSessions(0)} style={{marginLeft:13,marginRight:20}}>
-                    <Allsessions />
+                    <Allsessions  />
                 </Pressable>
                 <Pressable onPress={MySessions}>
                     <Mysessions />
@@ -179,9 +179,12 @@ export default function Homepage(){
                 </Pressable>
                 <BottomSheet  isVisible={calendarvisible}>
                     <Calendarview calendarviewdata={calendarviewdata} />
-                        <Pressable onPress={()=>setCalendarvisible(false)}>
-                            <Calendarclosebutton />
-                        </Pressable>
+                        <View style={{backgroundColor:'#FFFFFF'}}>
+                            <Pressable onPress={()=>setCalendarvisible(false)} style={{alignSelf:'center',backgroundColor:'#FFFFFF'}}>
+                            
+                                <Calendarclosebutton />
+                            </Pressable>
+                        </View>
                 </BottomSheet>
                 <Pressable onPress={()=>setIsVisible(true)} style={{marginLeft:8}}>
                     <Seats />
@@ -189,7 +192,7 @@ export default function Homepage(){
                 <BottomSheet isVisible={isVisible}>
                     <View style={{backgroundColor:'#FFFFFF'}}>
                         <Seatselectionfilter filteredseatdata={filteredseatdata} />
-                            <Pressable onPress={Savebuttonpressed}>
+                            <Pressable onPress={Savebuttonpressed} style={{alignSelf:'center'}}>
                                 <Seatfiltersave />
                             </Pressable>
                     </View>
