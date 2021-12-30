@@ -5,7 +5,7 @@ develop the app.
 Along with the comments below, everything is explained in  detail in Readme.md file
 I request to kindly go through it.
 */
-import {Text, View,SafeAreaView,StyleSheet,Image,TouchableHighlight, Touchable} from 'react-native';
+import {Text, View,SafeAreaView,StyleSheet,Image,TouchableHighlight, Touchable,Pressable} from 'react-native';
 import {BottomSheet,SearchBar} from 'react-native-elements';
 import  {Title,Avatar,Appbar,Button,Switch, Subheading} from 'react-native-paper';
 import React from 'react';
@@ -16,6 +16,8 @@ import Statictext from './Statictext';
 import Calendarview from './Calendarview';
 import Seatselectionfilter from './Seatselectionfilter';
 import Header from './Header';
+import Mysessions from '../Svgicons/Mysessions';
+import Allsessions from '../Svgicons/Allsessions';
 
 export default function Homepage(){ 
     
@@ -158,15 +160,15 @@ export default function Homepage(){
 
         <View style={{flex:4}}> 
             <View style={{flexDirection:'row',marginTop:10}}>
-                    <Button  
-                    color={allsessionsbuttoncolor} 
-                    onPress={() => AllSessions(0)} 
-                    style={styles.sessionsbuttonstyling} 
-                    labelStyle={styles.buttonlabelstyle}>All Sessions</Button>
-                    <Button color={mysessionsbuttoncolor} onPress={MySessions} style={styles.sessionsbuttonstyling}>My Sessions</Button>
+                <Pressable onPress={() => AllSessions(0)} style={{marginLeft:15,marginRight:20}}>
+                    <Allsessions />
+                </Pressable>
+                <Pressable onPress={MySessions}>
+                    <Mysessions />
+                </Pressable>
             </View>
 
-            <View style={{flexDirection:'row',marginTop:15}}>
+            <View style={{flexDirection:'row',marginTop:25}}>
                 <Button mode='contained' style={styles.buttonStyle} color='#D3D3D3' onPress={() => setCalendarvisible(true)}>Date</Button>
                     <BottomSheet  isVisible={calendarvisible}>
                        <Calendarview calendarviewdata={calendarviewdata} />

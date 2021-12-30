@@ -5,6 +5,7 @@ import {Text, View,SafeAreaView,StyleSheet,Image,TouchableHighlight, Touchable,P
 import './Server';
 import Searchicon from '../Svgicons/Searchicon';
 import Mask1 from '../Svgicons/Mask';
+import Usericon from '../Svgicons/Usericon';
 
 const  Header = ({countvalue}) => {
 
@@ -24,7 +25,7 @@ const  Header = ({countvalue}) => {
             <Pressable onPress={() => setCount(1)} style={{marginRight:15}}>
                 <Searchicon  />
             </Pressable>
-                <Avatar.Image  size={34} source={{uri:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRblGHmIA70kc9T4UJy-AFc0YLcnPpu5kwR2Q&usqp=CAU'}}/>
+                <Usericon />
             </Appbar.Header>
         </SafeAreaView>
     );
