@@ -5,17 +5,33 @@ and runs through a function to create a new list with all objects
 Along with this,everything is explained in detail in Readme.md file
 So I request  to kindly go through it.
 */
-
-
+import {useState,useEffect} from 'react';
 import {Text, View,ScrollView,StyleSheet,Image} from 'react-native';
 import {Divider} from 'react-native-elements';
 import  {Avatar,Button,Card,Subheading} from 'react-native-paper';
 import React from 'react';
+import ContentLoader, { Rect, Circle, Path } from "react-content-loader/native"
+import Skeletonloader from './Skeletonloader';
+
 
 const Cardview = (props) => {
 
     var noofevents = Object.keys(props.eventslist).length;
 
+    const [count,setCount] = useState(0);
+    
+    const changecount = () =>{
+        setCount(1)
+    }
+
+    if(count===0){
+        setTimeout(changecount,3500);
+        return (
+            <Skeletonloader />
+        );
+    }
+
+    else{
     if(noofevents!==0){
 
         return (
@@ -29,6 +45,8 @@ const Cardview = (props) => {
                 for it,then the else condition takes place and returns
                 no data found.
             */
+            <>
+            
 
             <ScrollView style={{marginTop:10}}>
             {
@@ -79,6 +97,7 @@ const Cardview = (props) => {
                 }
             )}
             </ScrollView>
+            </>
         );
     }
     else 
@@ -89,7 +108,7 @@ const Cardview = (props) => {
             </>
         );
     }
-
+}
 }
 const styles = StyleSheet.create({
 
