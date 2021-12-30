@@ -3,7 +3,8 @@ import React from 'react';
 import { useState,useEffect} from 'react';
 import {Text, View,SafeAreaView,StyleSheet,Image,TouchableHighlight, Touchable,Pressable} from 'react-native';
 import './Server';
-import Searchicon from './Searchicon';
+import Searchicon from '../Svgicons/Searchicon';
+import Mask1 from '../Svgicons/Mask';
 
 const  Header = ({countvalue}) => {
 
@@ -16,8 +17,9 @@ const  Header = ({countvalue}) => {
     return (
         <SafeAreaView>
             <Appbar.Header style={{backgroundColor: '#FFFFFF'}}> 
-            <Appbar.Action  icon="reorder-horizontal" style={{backgroundColor:'#FFFFFF'}} color='#A9A9A9'/>
-
+            <View style={{marginLeft:10}}>
+            <Mask1 />
+            </View>
             <Appbar.Content title="" subtitle="" />
             <Pressable onPress={() => setCount(1)} style={{marginRight:15}}>
                 <Searchicon  />
