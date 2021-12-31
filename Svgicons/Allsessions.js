@@ -1,8 +1,10 @@
+//This file contains the SVG for the AllSessions Button.
 import React from 'react'
-import { View } from 'react-native'
 import Svg, { 
-  Circle, Ellipse, G, Text, TSpan, TextPath, Path, Polygon, Polyline, Line, Rect, Use, Image, Symbol, Defs, LinearGradient, RadialGradient, Stop, ClipPath, Pattern, Mask 
+  Path
 } from 'react-native-svg'
+
+
 
 const Allsessions = () => (
     <Svg width="94" height="14" viewBox="0 0 94 14" fill="none" xmlns="http://www.w3.org/2000/svg">

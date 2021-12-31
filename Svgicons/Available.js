@@ -1,9 +1,8 @@
+//This file contains the SVG for the Available filter Button.
 import React from 'react'
-import { View } from 'react-native'
 import Svg, { 
-  Circle, Ellipse, G, Text, TSpan, TextPath, Path, Polygon, Polyline, Line, Rect, Use, Image, Symbol, Defs, LinearGradient, RadialGradient, Stop, ClipPath, Pattern, Mask 
+   Path, Rect 
 } from 'react-native-svg'
-
 
 const Available = () => (
     <Svg width="413" height="40" viewBox="0 0 413 40" fill="none" xmlns="http://www.w3.org/2000/svg">

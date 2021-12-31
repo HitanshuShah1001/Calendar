@@ -1,8 +1,9 @@
+//This file contains the SVG for the close calendar button for closing the calendar after selecting a date.
 import React from 'react'
-import { View } from 'react-native'
 import Svg, { 
-  Circle, Ellipse, G, Text, TSpan, TextPath, Path, Polygon, Polyline, Line, Rect, Use, Image, Symbol, Defs, LinearGradient, RadialGradient, Stop, ClipPath, Pattern, Mask 
+ Path
 } from 'react-native-svg'
+
 
 const Calendarclosebutton = () => (
     <Svg width="350" height="48" viewBox="0 0 382 48" fill="none" xmlns="http://www.w3.org/2000/svg">

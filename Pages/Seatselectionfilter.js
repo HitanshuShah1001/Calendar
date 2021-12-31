@@ -1,27 +1,26 @@
-import {Text, View,SafeAreaView,StyleSheet,Image,TouchableHighlight, Touchable,Pressable} from 'react-native';
-import {BottomSheet,SearchBar} from 'react-native-elements';
-import  {Title,Avatar,Appbar,Button,Switch, Subheading} from 'react-native-paper';
+import {View,StyleSheet,Pressable} from 'react-native';
 import React from 'react';
-import { useState,useEffect,useCallback } from 'react';
+import { useState,useEffect } from 'react';
 import './Server';
 import Fillingfast from '../Svgicons/Fillingfast';
 import Booked from '../Svgicons/Booked';
 import Available from '../Svgicons/Available';
+import Rectangle from '../Svgicons/Rectangle';
 
-const Seatselectionfilter = ({filteredseatdata}) => {
+
+
+const Seatselectionfilter = ({filteredseatdata,hideseatfilter}) => {
 
     const [seattype,setSeattype] = useState("");  
 
-    const [isFFSwitchOn, setIsFFSwitchOn] = useState(false);
-
-    const [isAvailableSwitchOn, setIsAvailableSwitchOn] = useState(false);
-
-    const [isBookedSwitchOn, setIsBookedSwitchOn] = useState(false);
+    const [isVisible,setIsVisible] = useState(true);
 
     useEffect(() => {
         filteredseatdata(seattype)
-    },[seattype])
-    
+        hideseatfilter(isVisible)
+    },[seattype,isVisible])
+
+
     const FFfilter = () => {
             setSeattype("Filling Fast");
             filteredseatdata(seattype);
@@ -41,7 +40,11 @@ const Seatselectionfilter = ({filteredseatdata}) => {
 
     return (
         <View style={{backgroundColor:'#FFFFFF'}}>
-            
+
+            <Pressable onPress={() => setIsVisible(false)} style={{alignSelf:'center',marginTop:10}}>
+                <Rectangle />
+            </Pressable>
+
             <Pressable onPress={FFfilter}>
                 <Fillingfast />
             </Pressable>

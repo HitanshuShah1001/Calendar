@@ -16,15 +16,36 @@ import Skeletonloader from './Skeletonloader';
 
 const Cardview = (props) => {
 
+    /*
+    Noofevents is the total number of objects returned from the API.
+    */
+
     var noofevents = Object.keys(props.eventslist).length;
+
+    /*
+    This count is used to trigger the showing of data 
+    after the skeleton loader is loaded.
+    Here we are using the skeleton loader for a default of 3.5 seconds 
+    because sicne we are fetching data from the mock API,data is already 
+    loaded.There won't be any lag in presenting data.So,we are 
+    using setTimeout to simulate loading of data.
+    */
 
     const [count,setCount] = useState(0);
     
-    const changecount = () =>{
+
+    const changecount = () => {
         setCount(1)
     }
 
     if(count===0){
+
+        /*
+        This setTimout will invoke a changecount function which will
+        set the count to 1 that will show the data that is fetched 
+        from the API.
+        */
+
         setTimeout(changecount,3500);
         return (
             <Skeletonloader />

@@ -1,7 +1,7 @@
+//This file contains the SVG for the Filling fast seat filter button.
 import React from 'react'
-import { View } from 'react-native'
 import Svg, { 
-  Circle, Ellipse, G, Text, TSpan, TextPath, Path, Polygon, Polyline, Line, Rect, Use, Image, Symbol, Defs, LinearGradient, RadialGradient, Stop, ClipPath, Pattern, Mask 
+  Path, Rect 
 } from 'react-native-svg'
 
 const Fillingfast = () => (

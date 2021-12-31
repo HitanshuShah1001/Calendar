@@ -1,7 +1,8 @@
+//This file contains the SVG for the User icon on the top right of the screen 
 import React from 'react'
 import { View } from 'react-native'
 import Svg, { 
-  Circle, Ellipse, G, Text, TSpan, TextPath, Path, Polygon, Polyline, Line, Rect, Use, Image, Symbol, Defs, LinearGradient, RadialGradient, Stop, ClipPath, Pattern, Mask 
+  Circle,Use,Image,Defs,Pattern
 } from 'react-native-svg'
 
 const Usericon = () => (

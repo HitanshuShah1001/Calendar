@@ -3,11 +3,14 @@ import React from 'react';
 import { useState,useEffect} from 'react';
 import './Server';
 
+/*
+This component takes care of displaying and hiding the calendar view
 
+*/
 
 const Calendarview = ({calendarviewdata}) => {
 
-    const [events,setEvents] = useState([]);
+    const [events,setEvents] = useState([]); 
     const [markeddayevents,setMarkeddayevents] = useState([]);
 
     useEffect(()=> {

@@ -101,6 +101,10 @@ export default function Homepage(){
         setSeattype(childdata);
     }
 
+    const hideseatfilter = (childdata) => {
+        setIsVisible(childdata);
+    }
+
     const countvalue = (childdata) => {
         setCount(childdata);
     }
@@ -181,7 +185,6 @@ export default function Homepage(){
                     <Calendarview calendarviewdata={calendarviewdata} />
                         <View style={{backgroundColor:'#FFFFFF'}}>
                             <Pressable onPress={()=>setCalendarvisible(false)} style={{alignSelf:'center',backgroundColor:'#FFFFFF'}}>
-                            
                                 <Calendarclosebutton />
                             </Pressable>
                         </View>
@@ -191,7 +194,7 @@ export default function Homepage(){
                 </Pressable>
                 <BottomSheet isVisible={isVisible}>
                     <View style={{backgroundColor:'#FFFFFF'}}>
-                        <Seatselectionfilter filteredseatdata={filteredseatdata} />
+                        <Seatselectionfilter filteredseatdata={filteredseatdata} hideseatfilter={hideseatfilter} />
                             <Pressable onPress={Savebuttonpressed} style={{alignSelf:'center'}}>
                                 <Seatfiltersave />
                             </Pressable>
