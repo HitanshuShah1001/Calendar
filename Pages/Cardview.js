@@ -5,12 +5,11 @@ and runs through a function to create a new list with all objects
 Along with this,everything is explained in detail in Readme.md file
 So I request  to kindly go through it.
 */
-import {useState,useEffect} from 'react';
-import {Text, View,ScrollView,StyleSheet,Image} from 'react-native';
+import {useState} from 'react';
+import {View,ScrollView,StyleSheet,Image} from 'react-native';
 import {Divider} from 'react-native-elements';
-import  {Avatar,Button,Card,Subheading} from 'react-native-paper';
+import  {Button,Card,Subheading} from 'react-native-paper';
 import React from 'react';
-import ContentLoader, { Rect, Circle, Path } from "react-content-loader/native"
 import Skeletonloader from './Skeletonloader';
 
 

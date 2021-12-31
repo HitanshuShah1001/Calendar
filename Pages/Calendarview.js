@@ -5,14 +5,14 @@ import './Server';
 
 /*
 This component takes care of displaying and hiding the calendar view
-
+It takes calendarviewdata component in the homepage component as a 
+prop.
 */
 
 const Calendarview = ({calendarviewdata}) => {
 
     const [events,setEvents] = useState([]); 
     const [markeddayevents,setMarkeddayevents] = useState([]);
-
     useEffect(()=> {
         fetch('/api/events')
         .then(res => res.json())
@@ -24,6 +24,13 @@ const Calendarview = ({calendarviewdata}) => {
         calendarviewdata(events);
     },[events])
 
+    /*
+        Whenever a day is pressed in the calendar,
+        it will be passed as a parameter in the Selecteddaysevent
+        and the selecteddaysevent function will fetcehd the data from the API
+        based on the date selected and the data will be passed 
+        as a parameter to the calendarviewdata prop.
+    */
 
     const Selecteddaysevent = (date) => {
         fetch('/api/events')
@@ -32,7 +39,7 @@ const Calendarview = ({calendarviewdata}) => {
         .catch(err => console.log(err))
         calendarviewdata(events);
     }
-
+    
     var markedDay={};
     markeddayevents.map((item) => {
         markedDay[item.Date] = {

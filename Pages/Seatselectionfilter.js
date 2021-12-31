@@ -8,6 +8,14 @@ import Available from '../Svgicons/Available';
 import Rectangle from '../Svgicons/Rectangle';
 
 
+/*
+    This component is created for handling the different seat selection 
+    filters.It takes filteredseatdata and the hideseatfilter component defined in the
+    homepage as prop here and then whenever a seattype is selected or a
+    dropdown button is clicked,useEffect hook will be trigerred and it will
+    pass the seeattype and the isvisible state as parameter to the components.
+    So that the appropriate data can be fetched from the API.
+*/
 
 const Seatselectionfilter = ({filteredseatdata,hideseatfilter}) => {
 
@@ -20,18 +28,19 @@ const Seatselectionfilter = ({filteredseatdata,hideseatfilter}) => {
         hideseatfilter(isVisible)
     },[seattype,isVisible])
 
-
+    // If fillingfast button is clicked.
     const FFfilter = () => {
             setSeattype("Filling Fast");
             filteredseatdata(seattype);
         }
     
-
+    // If Available button is clicked.
     const Availablefilter = () => {
             setSeattype("Available");
             filteredseatdata(seattype);
     }
 
+    //If bookedbutton is clicked.
     const Bookedfilter = () => {
             setSeattype("Booked");
             filteredseatdata(seattype);

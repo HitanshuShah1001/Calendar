@@ -93,20 +93,30 @@ export default function Homepage(){
         setSearchQuery(text);
     }
 
-    const calendarviewdata = (childdata) => {
-        setEvents(childdata);
+    /*
+    In order to accept the data from the Seatselectionfilter,Calendarview component
+    we are creating a function for that.
+    We will pass this function as a prop to the above mentioned components.
+    In the child component files,this function call will be accepted as props
+    and will be assigned it to the respective onPress events.And then pass the data into 
+    the functions as parameters.And in the below components,we will accept the data
+    and set the data using the useState hook.
+    */
+
+    const calendarviewdata = (eventdata) => {
+        setEvents(eventdata);
     }
 
-    const filteredseatdata = (childdata) => {
-        setSeattype(childdata);
+    const filteredseatdata = (filteredeventbasedonseatdata) => {
+        setSeattype(filteredeventbasedonseatdata);
     }
 
-    const hideseatfilter = (childdata) => {
-        setIsVisible(childdata);
+    const hideseatfilter = (hideseat) => {
+        setIsVisible(hideseat);
     }
 
-    const countvalue = (childdata) => {
-        setCount(childdata);
+    const countvalue = (changecount) => {
+        setCount(changecount);
     }
 
     const Savebuttonpressed = () => {
