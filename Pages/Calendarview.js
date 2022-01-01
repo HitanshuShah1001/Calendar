@@ -39,7 +39,7 @@ const Calendarview = ({calendarviewdata}) => {
         .catch(err => console.log(err))
         calendarviewdata(events);
     }
-    
+
     var markedDay={};
     markeddayevents.map((item) => {
         markedDay[item.Date] = {
@@ -58,11 +58,32 @@ const Calendarview = ({calendarviewdata}) => {
             onDayPress={day => {
                         Selecteddaysevent(day.dateString);
                     }}
-            monthFormat={'MM yyyy'}
+            
             hideArrows={false}
             hideExtraDays={true}
             disableMonthChange={false}
             firstDay={1}
+
+            theme={{
+                backgroundColor: '#ffffff',
+                calendarBackground: '#ffffff',
+                textSectionTitleColor: '#000000',
+                selectedDayTextColor: '#ffffff',
+                todayTextColor: '#00adf5',
+                dayTextColor: '#2d4150',
+                textDisabledColor: '#d9e1e8',
+                selectedDotColor: '#000000',
+                arrowColor: 'black',
+                disabledArrowColor: '#d9e1e8',
+                monthTextColor: 'black',
+                indicatorColor: 'blue',
+                textDayFontWeight: '500',
+                textMonthFontWeight: 'bold',
+                textDayHeaderFontWeight: '400',
+                textDayFontSize: 14,
+                textMonthFontSize: 16,
+                textDayHeaderFontSize: 14
+            }}
         />
     );
 }
