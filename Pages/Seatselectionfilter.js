@@ -6,8 +6,8 @@ import Fillingfast from '../Svgicons/Fillingfast';
 import Booked from '../Svgicons/Booked';
 import Available from '../Svgicons/Available';
 import Rectangle from '../Svgicons/Rectangle';
-
-
+import Checkbox from '../Svgicons/Checkbox';
+import FilledCheckbox from '../Svgicons/FilledCheckbox';
 /*
     This component is created for handling the different seat selection 
     filters.It takes filteredseatdata and the hideseatfilter component defined in the
@@ -18,7 +18,8 @@ import Rectangle from '../Svgicons/Rectangle';
 */
 
 const Seatselectionfilter = ({filteredseatdata,hideseatfilter}) => {
-
+    
+    
     const [seattype,setSeattype] = useState("");  
 
     const [isVisible,setIsVisible] = useState(true);
@@ -46,25 +47,55 @@ const Seatselectionfilter = ({filteredseatdata,hideseatfilter}) => {
             filteredseatdata(seattype);
         }
     
+        let filledfillingfast = seattype==="Filling Fast"?<FilledCheckbox />:<Checkbox />
+        
+        let filledavailable  = seattype==="Available"?<FilledCheckbox />:<Checkbox />
+
+        let filledbooked = seattype==="Booked"?<FilledCheckbox />:<Checkbox />
+
 
     return (
         <View style={{backgroundColor:'#FFFFFF'}}>
 
+
             <Pressable onPress={() => setIsVisible(false)} style={{alignSelf:'center',marginTop:10}}>
                 <Rectangle />
             </Pressable>
+               
 
-            <Pressable onPress={FFfilter}>
-                <Fillingfast />
-            </Pressable>
+            <View style={{flexDirection:'row',flex:1}}>
+                <View style={{flex:10}}>
+                    <Pressable onPress={FFfilter}>
+                        <Fillingfast />
+                    </Pressable>
+                </View>
+                <View style={{flex:1,marginTop:10}}>
+                    {filledfillingfast}
+                </View>
+            </View>
 
-            <Pressable onPress={Availablefilter}>
-                <Available />
-            </Pressable>
+            
+            <View style={{flexDirection:'row',flex:1}}>
+                <View style={{flex:10}}>
+                    <Pressable onPress={Availablefilter}>
+                        <Available />
+                    </Pressable>
+                </View>
+                <View style={{flex:1,marginTop:10}}>
+                    {filledavailable}
+                </View>
+            </View>
 
-            <Pressable onPress={Bookedfilter}>
-                <Booked />
-            </Pressable>
+            <View style={{flexDirection:'row',flex:1}}>
+                <View style={{flex:10}}>
+                    <Pressable onPress={Bookedfilter}>
+                        <Booked />
+                    </Pressable>
+                </View>
+                <View style={{flex:1,marginTop:10}}>
+                    {filledbooked}
+                </View>
+            </View>
 
         </View>
     );
