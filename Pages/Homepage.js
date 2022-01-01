@@ -20,8 +20,11 @@ import Date from '../Svgicons/Date';
 import Seats from '../Svgicons/Seats';
 import Instructor from '../Svgicons/Instructor';
 import Mysessions from '../Svgicons/Mysessions';
+import Mysessionspressed from '../Svgicons/Mysessionspressed';
 import Calendarclosebutton from '../Svgicons/Calendarclosebutton';
 import Allsessions from '../Svgicons/Allsessions';
+import Allsessionspressed from '../Svgicons/Allsessionspressed';
+
 import Seatfiltersave from '../Svgicons/Seatfiltersave';
 
 export default function Homepage(){ 
@@ -138,6 +141,10 @@ export default function Homepage(){
         }
     }
 
+    let allsessionscolor = allsessionsbuttoncolor==='#000000'?<Allsessionspressed />:<Allsessions />
+
+    let mysessionscolor = mysessionsbuttoncolor==='#000000'?<Mysessionspressed />:<Mysessions />
+    
     /*
         header is a ternary operator that checks if count variable  is 0 and if it 
         is then it returns the normal header and if it isn't, then it returns 
@@ -180,10 +187,10 @@ export default function Homepage(){
         <View style={{flex:4}}> 
             <View style={{flexDirection:'row',marginTop:10}}>
                 <Pressable onPress={() => AllSessions(0)} style={{marginLeft:13,marginRight:20}}>
-                    <Allsessions  />
+                    {allsessionscolor}
                 </Pressable>
                 <Pressable onPress={MySessions}>
-                    <Mysessions />
+                    {mysessionscolor}
                 </Pressable>
             </View>
 
