@@ -7,11 +7,10 @@ So I request  to kindly go through it.
 */
 import {useState} from 'react';
 import {View,ScrollView,StyleSheet,Image} from 'react-native';
-import {Divider} from 'react-native-elements';
-import  {Button,Card,Subheading} from 'react-native-paper';
+import {Divider,Button} from 'react-native-elements';
+import  {Card,Subheading} from 'react-native-paper';
 import React from 'react';
 import Skeletonloader from './Skeletonloader';
-
 
 const Cardview = (props) => {
 
@@ -67,13 +66,16 @@ const Cardview = (props) => {
             */
             <>
             
-
             <ScrollView style={{marginTop:10}}>
             {
-        
+            
             props.eventslist.map((events,idx) => {
+                    
+                    let buttoncolour = events.Type === "Finished"?"#F2F2F2":"#444444"
+                    let buttontextcolour = events.Type === "Finished"?"#666666":"#F2F2F2"
+                    
                     return(
-
+                        
                         /*
                             The view hierarchy in the cell:-
                             Create a view that has flex direction of row
@@ -105,8 +107,9 @@ const Cardview = (props) => {
                                         titleNumberOfLines={3}
                                         subtitleNumberOfLines={4}  
                                     />
-                                    <Button color='#D3D3D3' mode='contained' compact={true} width='30%' labelStyle={{fontSize:8,color:'#FFFFFF'}}
-                                    style={styles.buttonStyle}>{events.Type}</Button>
+                                    <Button buttonStyle={{backgroundColor:buttoncolour,borderRadius:22,marginTop:8,marginLeft:10,maxWidth:100,minWidth:90}} 
+                                    title={events.Type.toUpperCase()} titleStyle={{fontSize:12,color:buttontextcolour,textAlign:'justify',fontWeight:'600',letterSpacing:0.06}}
+                                    />
 
                                 </View>
                                 
@@ -135,7 +138,7 @@ const styles = StyleSheet.create({
     image: {
       width: 80,
       height: 80,
-      borderRadius:20,
+      borderRadius:8,
       marginLeft:5,
       marginTop:6,
     },
@@ -158,8 +161,8 @@ const styles = StyleSheet.create({
         borderRadius:22,
         marginTop:8,
         marginLeft:10,
-        backgroundColor:'#444444',
-        
+        maxWidth:90,
+        minWidth:81,
     },
     dividerstyle:{
         marginLeft:13,

@@ -5,11 +5,10 @@ develop the app.
 Along with the comments below, everything is explained in  detail in Readme.md file
 I request to kindly go through it.
 */
-import {Text, View,SafeAreaView,StyleSheet,Image,TouchableHighlight, Touchable,Pressable} from 'react-native';
+import {View,SafeAreaView,StyleSheet,Pressable} from 'react-native';
 import {BottomSheet,SearchBar} from 'react-native-elements';
-import  {Title,Avatar,Appbar,Button,Switch, Subheading} from 'react-native-paper';
 import React from 'react';
-import { useState,useEffect,useCallback } from 'react';
+import { useState,useEffect } from 'react';
 import Cardview from './Cardview';
 import './Server';
 import Statictext from './Statictext';
