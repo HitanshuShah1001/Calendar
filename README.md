@@ -56,7 +56,7 @@ which makes the code much more short and simple.So,here functions have been used
 3. allsessionsbuttoncolor,mysessionbuttoncolor - used for changing the 
 button color of AllSessions based on click
             
-4. events - used for storing the fetched data
+4. events,markeddayevents - used for storing the fetched data
 
 5. calendarvisible - used to show/hide calendar on date button click
 
@@ -76,7 +76,7 @@ button color of AllSessions based on click
 9. isFFSwitchOn,isAvailableSwitchOn,isBookedSwitchOn - Used for toggling of the various seat selection filters,
     such as when one filter is selected,the rest should be deselected and likewise.
 
-
+10. isVisible - used for toggling showing and closing of modal on clicking Seats filter
 
 
 ## Functions used for Filtering Components

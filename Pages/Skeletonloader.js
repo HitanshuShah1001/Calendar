@@ -15,7 +15,7 @@ const Skeletonloader = (props) => (
     width={800}
     height={160}
     viewBox="0 0 800 160"
-    backgroundColor="#f3f3f3"
+    backgroundColor="#E0E0E0"
     foregroundColor="#ecebeb"
     {...props}
   >
@@ -34,7 +34,7 @@ const Skeletonloader = (props) => (
     width={800}
     height={160}
     viewBox="0 0 800 160"
-    backgroundColor="#f3f3f3"
+    backgroundColor="#F2F2F2"
     foregroundColor="#E0E0E0"
     {...props}
   >
@@ -53,7 +53,7 @@ const Skeletonloader = (props) => (
     width={800}
     height={160}
     viewBox="0 0 800 160"
-    backgroundColor="#F3F3F3"
+    backgroundColor="#F2F2F2"
     foregroundColor="#E0E0E0"
     {...props}
   >

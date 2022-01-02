@@ -1,4 +1,4 @@
-
+//This file contains the SVG for displaying the filled  checkbox.
 import React from 'react'
 import Svg, { Rect
 } from 'react-native-svg'

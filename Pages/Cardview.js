@@ -24,7 +24,7 @@ const Cardview = (props) => {
     This count is used to trigger the showing of data 
     after the skeleton loader is loaded.
     Here we are using the skeleton loader for a default of 3.5 seconds 
-    because sicne we are fetching data from the mock API,data is already 
+    because since we are fetching data from the mock API,data is already 
     loaded.There won't be any lag in presenting data.So,we are 
     using setTimeout to simulate loading of data.
     */
@@ -70,7 +70,12 @@ const Cardview = (props) => {
             {
             
             props.eventslist.map((events,idx) => {
-                    
+                    /*
+                        In order to display different style and colour of button
+                        based on different text input,a ternary operator is used
+                        that sets buttonbackground and button text colour based on 
+                        the type of event.
+                    */
                     let buttoncolour = events.Type === "Finished"?"#F2F2F2":"#444444"
                     let buttontextcolour = events.Type === "Finished"?"#666666":"#F2F2F2"
                     
@@ -101,7 +106,7 @@ const Cardview = (props) => {
                                     <Card.Title
                                         title={events.classname +  '\n' + events.Iname}
                                         subtitle={events.Time + " ◉ " + events.Date.split("-").reverse().join("-")
-                                                    + '\n' + "👥 " + events.Attending + " " + events.Seats}
+                                                    + '\n' + "👥  " + events.Attending + "  " + events.Seats}
                                         titleStyle={styles.Titlestyle}
                                         subtitleStyle={styles.Subtitlestyle}
                                         titleNumberOfLines={3}
@@ -127,7 +132,7 @@ const Cardview = (props) => {
     {
         return (
             <>
-                <Subheading style={{textAlign:'center',marginTop:30}}>No events found</Subheading>
+                <Subheading style={{marginLeft:20,marginTop:30,fontWeight:'600',fontSize:18,color:'#999999'}}>No events found</Subheading>
             </>
         );
     }
@@ -157,13 +162,7 @@ const styles = StyleSheet.create({
         fontWeight:"400",
         color:'#666666'
     },
-    buttonStyle:{
-        borderRadius:22,
-        marginTop:8,
-        marginLeft:10,
-        maxWidth:90,
-        minWidth:81,
-    },
+    
     dividerstyle:{
         marginLeft:13,
         marginRight:13,

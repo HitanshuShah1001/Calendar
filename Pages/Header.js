@@ -23,6 +23,13 @@ const  Header = ({countvalue}) => {
     },[count])
 
     return (
+        
+        /*
+            Reorder horizontal,SearchIcon and UserIcon are 
+            SVGs.On Press of search Icon count is set to 1
+            which toggles the showing of search bar.
+        */
+
         <SafeAreaView>
             <Appbar.Header style={{backgroundColor: '#FFFFFF'}}> 
             <View style={{marginLeft:10}}>

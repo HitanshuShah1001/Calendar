@@ -11,7 +11,7 @@ prop.
 
 const Calendarview = ({calendarviewdata}) => {
 
-    const [events,setEvents] = useState([]); 
+    
     const [markeddayevents,setMarkeddayevents] = useState([]);
     useEffect(()=> {
         fetch('/api/events')
@@ -19,6 +19,7 @@ const Calendarview = ({calendarviewdata}) => {
         .then(json => setMarkeddayevents(json.events))
         .catch(err => console.log(err))
     },[])
+    const [events,setEvents] = useState(markeddayevents); 
 
     useEffect(() => {
         calendarviewdata(events);
@@ -27,9 +28,9 @@ const Calendarview = ({calendarviewdata}) => {
     /*
         Whenever a day is pressed in the calendar,
         it will be passed as a parameter in the Selecteddaysevent
-        and the selecteddaysevent function will fetcehd the data from the API
+        and the selecteddaysevent function will fetch the data from the API
         based on the date selected and the data will be passed 
-        as a parameter to the calendarviewdata prop.
+        as a parameter(Here events) to the calendarviewdata prop.
     */
 
     const Selecteddaysevent = (date) => {
@@ -40,6 +41,10 @@ const Calendarview = ({calendarviewdata}) => {
         calendarviewdata(events);
     }
 
+    /*
+        markedday keeps track of all the dates on which the events are 
+        scheduled and then it is passed to the markedDates prop of the calendar component
+    */
     var markedDay={};
     markeddayevents.map((item) => {
         markedDay[item.Date] = {
@@ -69,14 +74,11 @@ const Calendarview = ({calendarviewdata}) => {
                 calendarBackground: '#ffffff',
                 textSectionTitleColor: '#000000',
                 selectedDayTextColor: '#ffffff',
-                todayTextColor: '#00adf5',
-                dayTextColor: '#2d4150',
                 textDisabledColor: '#d9e1e8',
                 selectedDotColor: '#000000',
                 arrowColor: 'black',
                 disabledArrowColor: '#d9e1e8',
                 monthTextColor: 'black',
-                indicatorColor: 'blue',
                 textDayFontWeight: '500',
                 textMonthFontWeight: 'bold',
                 textDayHeaderFontWeight: '400',

@@ -34,7 +34,7 @@ export default function Homepage(){
 
     const [isVisible, setIsVisible] = useState(false); //used for toggling showing and closing of modal on clicking Seats filter 
 
-    const [allsessionsbuttoncolor,setAllsessionsbuttoncolor] = useState('#D3D3D3'); // used for changing the button colour
+    const [allsessionsbuttoncolor,setAllsessionsbuttoncolor] = useState('#000000'); // used for changing the button colour
 
     const [mysessionsbuttoncolor,setMysessionsbuttoncolor] = useState('#D3D3D3');
 
@@ -90,19 +90,20 @@ export default function Homepage(){
     const Query = (text) => {
         fetch('api/events')
         .then(res => res.json())
-        .then(json => setEvents(json.events.filter(obj=>obj.Iname==text)))
+        .then(json => setEvents(json.events.filter(obj=>obj.Iname.includes(text))))
         .catch(err => console.log(err))
         setSearchQuery(text);
     }
 
     /*
     In order to accept the data from the Seatselectionfilter,Calendarview component
-    we are creating a function for that.
+    we are creating functions for that.
     We will pass this function as a prop to the above mentioned components.
     In the child component files,this function call will be accepted as props
     and will be assigned it to the respective onPress events.And then pass the data into 
     the functions as parameters.And in the below components,we will accept the data
-    and set the data using the useState hook.
+    and set the data using the useState hook.Below four functions 
+    demonstrate the same.
     */
 
     const calendarviewdata = (eventdata) => {
@@ -140,6 +141,10 @@ export default function Homepage(){
         }
     }
 
+    /*
+    allsesssionscolor and mysessionscolor checks if any of MySessions or AllSessions are 
+    clicked and if any one of them is ,then it sets the background color of that to black
+    */
     let allsessionscolor = allsessionsbuttoncolor==='#000000'?<Allsessionspressed />:<Allsessions />
 
     let mysessionscolor = mysessionsbuttoncolor==='#000000'?<Mysessionspressed />:<Mysessions />
@@ -154,8 +159,12 @@ export default function Homepage(){
     <SafeAreaView>
         <View > 
          <SearchBar
+         cancelButtonProps ={{color:'#000000'}}
+         containerStyle = {{borderRadius:200}}
          placeholder="Instructor's name"
          platform='ios'
+         round = {true}
+         
          onChangeText={(text) => Query(text)}
          value={SearchQuery}
          autoCorrect={false}
@@ -194,9 +203,11 @@ export default function Homepage(){
             </View>
 
             <View style={{flexDirection:'row',marginTop:25}}>
+
                 <Pressable onPress={() => setCalendarvisible(true)} style={{marginLeft:8}}>
                     <Date />
                 </Pressable>
+
                 <BottomSheet  isVisible={calendarvisible}>
                     <Calendarview calendarviewdata={calendarviewdata} />
                         <View style={{backgroundColor:'#FFFFFF'}}>
@@ -205,9 +216,11 @@ export default function Homepage(){
                             </Pressable>
                         </View>
                 </BottomSheet>
+
                 <Pressable onPress={()=>setIsVisible(true)} style={{marginLeft:8}}>
                     <Seats />
                 </Pressable>
+
                 <BottomSheet isVisible={isVisible}>
                     <View style={{backgroundColor:'#FFFFFF'}}>
                         <Seatselectionfilter filteredseatdata={filteredseatdata} hideseatfilter={hideseatfilter} />
@@ -216,10 +229,13 @@ export default function Homepage(){
                             </Pressable>
                     </View>
                 </BottomSheet>
+
                 <Pressable onPress={()=>setCount(1)} style={{marginLeft:8}}>
                     <Instructor />
                 </Pressable>
+
             </View>
+            
             <Cardview eventslist={events}  />
             
         </View>

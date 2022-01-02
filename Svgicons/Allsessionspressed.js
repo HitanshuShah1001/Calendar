@@ -1,4 +1,4 @@
-//This file contains the SVG for the AllSessions Button.
+//This file contains the SVG for the AllSessions Button when it is pressed.
 import React from 'react'
 import Svg, { 
   Path

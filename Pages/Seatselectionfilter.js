@@ -8,6 +8,8 @@ import Available from '../Svgicons/Available';
 import Rectangle from '../Svgicons/Rectangle';
 import Checkbox from '../Svgicons/Checkbox';
 import FilledCheckbox from '../Svgicons/FilledCheckbox';
+
+
 /*
     This component is created for handling the different seat selection 
     filters.It takes filteredseatdata and the hideseatfilter component defined in the
@@ -20,7 +22,13 @@ import FilledCheckbox from '../Svgicons/FilledCheckbox';
 const Seatselectionfilter = ({filteredseatdata,hideseatfilter}) => {
     
     
-    const [seattype,setSeattype] = useState("");  
+    const [seattype,setSeattype] = useState(""); //Initially no seat type filter is selected,so it is initialised with empty string. 
+
+    /*
+    As we are showing the filter box,
+    visible is set to true and when we click 
+    on save or close the filter box,it will be set to false.
+    */
 
     const [isVisible,setIsVisible] = useState(true);
 
@@ -46,7 +54,12 @@ const Seatselectionfilter = ({filteredseatdata,hideseatfilter}) => {
             setSeattype("Booked");
             filteredseatdata(seattype);
         }
-    
+
+        /*
+        If any of the seat filter is selected,then with the help 
+        of a ternary operator,a filled checkbox is presented.
+        */
+
         let filledfillingfast = seattype==="Filling Fast"?<FilledCheckbox />:<Checkbox />
         
         let filledavailable  = seattype==="Available"?<FilledCheckbox />:<Checkbox />
@@ -63,38 +76,47 @@ const Seatselectionfilter = ({filteredseatdata,hideseatfilter}) => {
             </Pressable>
                
 
-            <View style={{flexDirection:'row',flex:1}}>
-                <View style={{flex:10}}>
+            <View style={styles.buttonStyle}>
+
+                <View style={styles.componentstyle}>
                     <Pressable onPress={FFfilter}>
                         <Fillingfast />
                     </Pressable>
                 </View>
-                <View style={{flex:1,marginTop:10}}>
+
+                <View style={styles.checkboxtextstyling}>
                     {filledfillingfast}
                 </View>
+
             </View>
 
             
-            <View style={{flexDirection:'row',flex:1}}>
-                <View style={{flex:10}}>
+            <View style={styles.buttonStyle}>
+                
+                <View style={styles.componentstyle}>
                     <Pressable onPress={Availablefilter}>
                         <Available />
                     </Pressable>
                 </View>
-                <View style={{flex:1,marginTop:10}}>
+
+                <View style={styles.checkboxtextstyling}>
                     {filledavailable}
                 </View>
+
             </View>
 
-            <View style={{flexDirection:'row',flex:1}}>
-                <View style={{flex:10}}>
+            <View style={styles.buttonStyle}>
+
+                <View style={styles.componentstyle}>
                     <Pressable onPress={Bookedfilter}>
                         <Booked />
                     </Pressable>
                 </View>
-                <View style={{flex:1,marginTop:10}}>
+
+                <View style={styles.checkboxtextstyling}>
                     {filledbooked}
                 </View>
+                
             </View>
 
         </View>
@@ -105,8 +127,8 @@ const Seatselectionfilter = ({filteredseatdata,hideseatfilter}) => {
 const styles=StyleSheet.create({
 
     buttonStyle:{
-        marginLeft:10,
-        borderRadius:20
+        flexDirection:'row',
+        flex:1
     },
     saveButtonStyling:{
         borderRadius:20,
@@ -116,8 +138,8 @@ const styles=StyleSheet.create({
         marginTop:15,
     },
     checkboxtextstyling:{
-        marginTop:10,
-        marginLeft:10
+        flex:1,
+        marginTop:10
     },
     sessionsbuttonstyling:{
         fontSize:16
@@ -125,6 +147,9 @@ const styles=StyleSheet.create({
     buttonlabelstyle:{
         fontSize:16,
         fontWeight:'400',
+    },
+    componentstyle:{
+        flex:10
     }
     
 })

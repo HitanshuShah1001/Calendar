@@ -1,4 +1,4 @@
-
+//This file contains the Svg for displaying the unselected check box.
 import React from 'react'
 import Svg, { Rect
 } from 'react-native-svg'

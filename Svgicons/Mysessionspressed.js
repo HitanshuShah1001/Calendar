@@ -1,4 +1,4 @@
-//This file contains the SVG for the MySessions button
+//This file contains the SVG for the MySessions button when it is pressed.
 import React from 'react'
 import Svg, { 
   Path,
