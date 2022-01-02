@@ -118,3 +118,49 @@ button color of AllSessions based on click
     These functions are used for conditioning logic for the toggling of 
     switches used in filtering seats.
 
+7. Calendarview
+
+     Whenever a day is pressed in the calendar,
+        it will be passed as a parameter in the Selecteddaysevent
+        and the selecteddaysevent function will fetch the data from the API
+        based on the date selected and the data will be passed 
+        as a parameter(Here events) to the calendarviewdata prop.
+
+8. Seatselectionfilter
+
+    This component is created for handling the different seat selection 
+    filters.It takes filteredseatdata and the hideseatfilter component defined in the
+    homepage as prop here and then whenever a seattype is selected or a
+    dropdown button is clicked,useEffect hook will be trigerred and it will
+    pass the seeattype and the isvisible state as parameter to the components.
+    So that the appropriate data can be fetched from the API.
+
+9. Skeletonloader
+
+    This component basically is the design layout 
+    for the skeleton loader where we use a React native content loader library.
+
+10. CardView
+
+    In this component a layout is created for displaying the data of events,
+    map function is used which  takes all objects in a list
+    and runs through a function to create a new list with all objects
+
+11. Statictext
+
+    This component is created and used for
+    displaying the static text of that is shown above the All Sessions
+    and my sessions buttons.
+
+12. Server
+
+    In order to create a mock API ,Mirage.js is used.It is a fake server
+    that runs on the client.A simple mirage route handler 
+    is used to handle the /api/events network 
+    requests.
+
+13. Homepage
+
+    This file is the centre point of the app 
+    where every thing from other files/components is merged together to 
+    develop the app.    
