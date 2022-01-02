@@ -211,7 +211,7 @@ export default function Homepage(){
                 <BottomSheet  isVisible={calendarvisible}>
                     <Calendarview calendarviewdata={calendarviewdata} />
                         <View style={{backgroundColor:'#FFFFFF'}}>
-                            <Pressable onPress={()=>setCalendarvisible(false)} style={{alignSelf:'center',backgroundColor:'#FFFFFF'}}>
+                            <Pressable onPress={()=>setCalendarvisible(false)} style={{alignSelf:'center',backgroundColor:'#FFFFFF',marginTop:10}}>
                                 <Calendarclosebutton />
                             </Pressable>
                         </View>
@@ -224,7 +224,7 @@ export default function Homepage(){
                 <BottomSheet isVisible={isVisible}>
                     <View style={{backgroundColor:'#FFFFFF'}}>
                         <Seatselectionfilter filteredseatdata={filteredseatdata} hideseatfilter={hideseatfilter} />
-                            <Pressable onPress={Savebuttonpressed} style={{alignSelf:'center'}}>
+                            <Pressable onPress={Savebuttonpressed} style={{alignSelf:'center',marginTop:20}}>
                                 <Seatfiltersave />
                             </Pressable>
                     </View>
